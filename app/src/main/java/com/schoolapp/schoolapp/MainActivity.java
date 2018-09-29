@@ -13,5 +13,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void thisIsATest() {
+        System.out.println("Dei Muata sei Gsicht");
     }
+
+
+
 }
