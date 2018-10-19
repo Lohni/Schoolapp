@@ -4,14 +4,6 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/colorPrimaryDark">
 
-
-    >
-
-    <ImageView
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        app:srcCompat="@drawable/settings"
-        android:layout_marginLeft="300dp"/>
 </android.support.v7.widget.Toolbar>
