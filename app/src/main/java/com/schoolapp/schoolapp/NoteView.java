@@ -1,9 +1,11 @@
 package com.schoolapp.schoolapp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -29,8 +31,6 @@ public class NoteView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.note_view);
 
-
-
         Button savenote = findViewById(R.id.savenote);
         Button deletenote = findViewById(R.id.deletenote);
         notename = findViewById(R.id.notename);
@@ -38,9 +38,8 @@ public class NoteView extends AppCompatActivity {
         Button revertbtn = findViewById(R.id.revertbtn);
 
 
-
-        if(!getIntent().getStringExtra("Name").isEmpty()){
-            final String oldname = getIntent().getStringExtra("Name");
+        final String oldname = getIntent().getStringExtra("Name");
+        if(!oldname.isEmpty()){
             notetext.setText(readNote(oldname));
             notename.setText(oldname);
         }
@@ -50,7 +49,7 @@ public class NoteView extends AppCompatActivity {
             public void onClick(View view) {
                 final String name = notename.getText().toString();
                 final String text = notetext.getText().toString();
-                saveNoteText(name, text);
+                saveNoteText(oldname, name, text);
             }
         });
         deletenote.setOnClickListener(new View.OnClickListener() {
@@ -68,22 +67,41 @@ public class NoteView extends AppCompatActivity {
         });
     }
 
-    private void deleteNote(String name) {
-        File f = new File(name);
-        boolean delete = f.delete();
+    private void deleteNote(final String name) {
 
-        if(delete){Toast.makeText(this, "Successfully deleted", Toast.LENGTH_SHORT).show(); finish();}
-        else Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show();
+        final AlertDialog.Builder builder = new AlertDialog.Builder(NoteView.this);
+        builder.setMessage("Delete?");
+        builder.setCancelable(true);
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                File f = new File(getFilesDir(),name);
+                boolean delete = f.delete();
+                if (delete){Toast.makeText(NoteView.this, "Successfully Deleted", Toast.LENGTH_SHORT).show(); finish();}
+                else Toast.makeText(NoteView.this, "Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
     }
 
-    private void saveNoteText(String name, String text) {
+    private void saveNoteText(String oldname ,String name, String text) {
         if (name.isEmpty()) Toast.makeText(this, "Field Name is empty", Toast.LENGTH_SHORT).show();
-        else {
+        else if(!oldname.equals(name)){ }
+        else{
             try (FileOutputStream fos = openFileOutput(name, MODE_PRIVATE);
 
                  OutputStreamWriter osw = new OutputStreamWriter(fos)) {
-                osw.write(name + System.lineSeparator() + text);
-                fos.close();
+                osw.write(text);
                 Toast.makeText(NoteView.this, "Data successfully saved!", Toast.LENGTH_SHORT).show();
             } catch (IOException t) {
                 Log.d(TAG, "saveNoteText: ", t);
@@ -93,15 +111,16 @@ public class NoteView extends AppCompatActivity {
 
     private String readNote(String name) {
         StringBuilder stringBuilder = new StringBuilder();
-        try (FileInputStream fis = openFileInput("" + name);
+        try (FileInputStream fis = openFileInput(name);
              InputStreamReader isr = new InputStreamReader(fis);
              BufferedReader br = new BufferedReader(isr)) {
             String s;
             //Zeilenweise Lesen
             while ((s = br.readLine()) != null) {
-                if (stringBuilder.length() > 0) stringBuilder.append('\n');
+                stringBuilder.append(s);
+                stringBuilder.append("\n");
             }
-            stringBuilder.append(s);
+            br.close();
         } catch (IOException t) {
             Log.d(TAG, "readNote:  ", t);
         }
