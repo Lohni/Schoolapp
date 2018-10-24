@@ -152,12 +152,12 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/settings"
-        android:layout_width="53dp"
-        android:layout_height="wrap_content"
+        android:layout_width="122dp"
+        android:layout_height="47dp"
         android:layout_alignBottom="@+id/toolbar"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="11dp"
         android:layout_marginBottom="9dp"
+        android:layout_marginEnd="11dp"
         android:clickable="true"
         android:focusable="false"
         app:backgroundTint="@color/colorPrimaryDark"

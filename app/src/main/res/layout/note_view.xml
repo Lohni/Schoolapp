@@ -6,49 +6,51 @@
     android:background="@color/secondcolor">
 
     <EditText
-        android:id="@+id/notetext"
-        android:layout_width="match_parent"
-        android:layout_height="507dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="0dp"
-        android:inputType="textMultiLine" />
-
-    <EditText
         android:id="@+id/notename"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/revertbtn"
+        android:ems="10"
+        android:hint="Name"
+        android:inputType="textPersonName"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/savenote"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/deletenote"
+        android:background="@android:drawable/ic_menu_save" />
+
+    <Button
+        android:id="@+id/deletenote"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:drawable/ic_menu_delete" />
+
+    <Button
+        android:id="@+id/revertbtn"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="74dp"
-        android:layout_marginTop="1dp"
+        android:background="@android:drawable/ic_menu_revert" />
+
+    <EditText
+        android:id="@+id/notetext"
+        android:layout_width="match_parent"
+        android:layout_height="503dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="0dp"
+        android:background="@null"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/deletenote"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
-        android:clickable="true"
-        app:elevation="0dp"
-        app:srcCompat="@android:drawable/ic_menu_delete" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/savenote"
-        android:layout_width="54dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="306dp"
-        android:clickable="true"
-        app:srcCompat="@android:drawable/ic_menu_save" />
+        android:gravity="top|start"
+        android:inputType="textMultiLine" />
 
 
 </RelativeLayout>
