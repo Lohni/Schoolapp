@@ -10,6 +10,11 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+/**
+*
+* Test Denis
+*
+*/
 public class Notes extends AppCompatActivity {
 
     ListAdapter listAdapter;
