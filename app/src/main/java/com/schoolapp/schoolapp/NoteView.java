@@ -104,18 +104,13 @@ public class NoteView extends AppCompatActivity {
                 Log.d(TAG, "saveNoteText: ", t);
             }
         } else {
-
             File f = new File(getFilesDir(),oldname);
             boolean delete = f.delete();
-
             if (delete) {
-
                 try (FileOutputStream fos = openFileOutput(name, MODE_PRIVATE);
                      OutputStreamWriter osw = new OutputStreamWriter(fos)) {
                     osw.write(text);
                     Toast.makeText(NoteView.this, "Data successfully saved!", Toast.LENGTH_SHORT).show();
-
-
                 } catch (IOException t) {
                     Log.d(TAG, "saveNoteText: ", t);
                 }
@@ -136,8 +131,6 @@ public class NoteView extends AppCompatActivity {
             }
         } catch (IOException t) {
             Log.d(TAG, "readNote:  ", t);
-        } finally {
-
         }
         return stringBuilder.toString();
     }
