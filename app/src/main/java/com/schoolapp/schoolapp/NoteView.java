@@ -1,10 +1,7 @@
 package com.schoolapp.schoolapp;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -39,7 +36,8 @@ public class NoteView extends AppCompatActivity {
 
 
         final String oldname = getIntent().getStringExtra("Name");
-        if(!oldname.isEmpty()){
+        final boolean isnew = getIntent().getBooleanExtra("IsNew", true);
+        if(!isnew){
             notetext.setText(readNote(oldname));
             notename.setText(oldname);
         }
@@ -96,16 +94,20 @@ public class NoteView extends AppCompatActivity {
 
     private void saveNoteText(String oldname ,String name, String text) {
         if (name.isEmpty()) Toast.makeText(this, "Field Name is empty", Toast.LENGTH_SHORT).show();
-        else if(!oldname.equals(name)){ }
-        else{
+        else if(oldname.equals(name)){
             try (FileOutputStream fos = openFileOutput(name, MODE_PRIVATE);
-
                  OutputStreamWriter osw = new OutputStreamWriter(fos)) {
                 osw.write(text);
                 Toast.makeText(NoteView.this, "Data successfully saved!", Toast.LENGTH_SHORT).show();
             } catch (IOException t) {
                 Log.d(TAG, "saveNoteText: ", t);
             }
+        }
+        else{
+            File f = new File(getFilesDir(),oldname);
+            boolean delete = f.delete();
+
+
         }
     }
 

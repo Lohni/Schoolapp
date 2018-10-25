@@ -1,41 +1,30 @@
 package com.schoolapp.schoolapp;
 
-import android.Manifest;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-
 import com.ebanx.swipebtn.OnActiveListener;
-import com.ebanx.swipebtn.OnStateChangeListener;
 import com.ebanx.swipebtn.SwipeButton;
 
 
 public class MainActivity extends AppCompatActivity {
-
-        SwipeButton musicbtn;
-        SwipeButton achievbtn;
-        SwipeButton subjectbtn;
-        SwipeButton calendarbtn;
-        SwipeButton notebtn;
-        SwipeButton homewrkbtn;
-        FloatingActionButton settings;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.mainmenu);
 
-            musicbtn = findViewById(R.id.musicbtn);
-            achievbtn = findViewById(R.id.achievbtn);
-            subjectbtn = findViewById(R.id.faecherbtn);
-            calendarbtn = findViewById(R.id.calendarbtn);
-            notebtn = findViewById(R.id.notebtn);
-            homewrkbtn = findViewById(R.id.homewrkbtn);
-            settings = findViewById(R.id.settings);
+            SwipeButton musicbtn = findViewById(R.id.musicbtn);
+            SwipeButton achievbtn = findViewById(R.id.achievbtn);
+            SwipeButton subjectbtn = findViewById(R.id.faecherbtn);
+            SwipeButton calendarbtn = findViewById(R.id.calendarbtn);
+            SwipeButton notebtn = findViewById(R.id.notebtn);
+            SwipeButton homewrkbtn = findViewById(R.id.homewrkbtn);
+            FloatingActionButton settings = findViewById(R.id.settings);
 
             musicbtn.setOnActiveListener(new OnActiveListener() {
                 @Override
