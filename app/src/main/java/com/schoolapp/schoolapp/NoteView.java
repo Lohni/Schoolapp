@@ -47,7 +47,7 @@ public class NoteView extends AppCompatActivity {
             public void onClick(View view) {
                 final String name = notename.getText().toString();
                 final String text = notetext.getText().toString();
-                saveNoteText(oldname, name, text);
+                saveNoteText(oldname, name, text, isnew);
             }
         });
         deletenote.setOnClickListener(new View.OnClickListener() {
@@ -92,9 +92,10 @@ public class NoteView extends AppCompatActivity {
 
     }
 
-    private void saveNoteText(String oldname ,String name, String text) {
+    private void saveNoteText(String oldname, String name, String text, Boolean isnew) {
+
         if (name.isEmpty()) Toast.makeText(this, "Field Name is empty", Toast.LENGTH_SHORT).show();
-        else if(oldname.equals(name)){
+        else if (isnew) {
             try (FileOutputStream fos = openFileOutput(name, MODE_PRIVATE);
                  OutputStreamWriter osw = new OutputStreamWriter(fos)) {
                 osw.write(text);
@@ -102,12 +103,23 @@ public class NoteView extends AppCompatActivity {
             } catch (IOException t) {
                 Log.d(TAG, "saveNoteText: ", t);
             }
-        }
-        else{
+        } else {
+
             File f = new File(getFilesDir(),oldname);
             boolean delete = f.delete();
 
+            if (delete) {
 
+                try (FileOutputStream fos = openFileOutput(name, MODE_PRIVATE);
+                     OutputStreamWriter osw = new OutputStreamWriter(fos)) {
+                    osw.write(text);
+                    Toast.makeText(NoteView.this, "Data successfully saved!", Toast.LENGTH_SHORT).show();
+
+
+                } catch (IOException t) {
+                    Log.d(TAG, "saveNoteText: ", t);
+                }
+            }
         }
     }
 
@@ -122,9 +134,10 @@ public class NoteView extends AppCompatActivity {
                 stringBuilder.append(s);
                 stringBuilder.append("\n");
             }
-            br.close();
         } catch (IOException t) {
             Log.d(TAG, "readNote:  ", t);
+        } finally {
+
         }
         return stringBuilder.toString();
     }
