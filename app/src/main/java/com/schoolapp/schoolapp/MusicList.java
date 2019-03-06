@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -71,6 +72,16 @@ public class MusicList extends Fragment {
         SongAdapter songAdt = new SongAdapter(getContext(), arrayList);
         listView.setAdapter(songAdt);
         songAdt.notifyDataSetChanged();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Bundle args = new Bundle();
+                MusicResolver mr = arrayList.get(i);
+                //args.putString(ARGS, mr.getTitle());
+            }
+        });
+
         return view;
     }
 
