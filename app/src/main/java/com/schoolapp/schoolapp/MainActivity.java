@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onActive() {
                     Toast.makeText(MainActivity.this, "Music",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, Musicplayer.class);
+                    startActivity(intent);
                 }
             });
             achievbtn.setOnActiveListener(new OnActiveListener() {
