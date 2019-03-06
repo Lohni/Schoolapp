@@ -24,7 +24,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".Notes" />
-        <activity android:name=".NoteView"></activity>
+        <activity android:name=".NoteView" />
+        <activity android:name=".Musicplayer"/>
     </application>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
 
 </manifest>
