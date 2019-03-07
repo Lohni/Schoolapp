@@ -38,7 +38,7 @@ public class MusicList extends Fragment {
     }
 
     // TODO: Rename and change types and number of parameters
-    public static MusicList newInstance(String param1, String param2) {
+    public static MusicList newInstance() {
         MusicList fragment = new MusicList();
         return fragment;
     }
@@ -46,11 +46,6 @@ public class MusicList extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
-
-
     }
 
 
