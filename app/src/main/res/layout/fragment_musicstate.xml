@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/firstcolor"
+    tools:context=".Musicstate">
+
+
+    <Button
+        android:id="@+id/play"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/skip"
+        android:background="@android:drawable/ic_media_play"
+        android:elevation="0dp" />
+
+    <Button
+        android:id="@+id/skip"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:background="@android:drawable/ic_media_next" />
+
+    <TextView
+        android:id="@+id/songtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/play"
+        android:text="Title"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/songartist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/songtitle"
+        android:layout_toStartOf="@id/play"
+        android:text="Artist"
+        android:textSize="20sp" />
+</RelativeLayout>
