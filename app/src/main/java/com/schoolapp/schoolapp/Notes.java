@@ -58,7 +58,6 @@ public class Notes extends AppCompatActivity {
     }
 
     private void getListcontent() {
-
         String[] f = fileList();
         listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, f);
         noteView = findViewById(R.id.notelist);

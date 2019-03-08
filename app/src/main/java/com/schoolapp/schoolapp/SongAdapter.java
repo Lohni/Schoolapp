@@ -28,9 +28,8 @@ public class SongAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int arg0) {
-        // TODO Auto-generated method stub
-        return null;
+    public MusicResolver getItem(int arg0) {
+        return songs.get(arg0);
     }
 
     @Override

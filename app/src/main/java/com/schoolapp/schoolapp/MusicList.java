@@ -1,6 +1,7 @@
 package com.schoolapp.schoolapp;
 
 import android.Manifest;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.ContentResolver;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -32,6 +33,10 @@ public class MusicList extends Fragment {
     private ArrayList<MusicResolver> arrayList;
     private ListView listView;
     private OnFragmentInteractionListener mListener;
+    private SongAdapter songAdt;
+
+
+    private MusicViewModel musicViewModel;
 
     public MusicList() {
         // Required empty public constructor
@@ -64,16 +69,16 @@ public class MusicList extends Fragment {
         });
 
         listView = view.findViewById(R.id.songlist);
-        SongAdapter songAdt = new SongAdapter(getContext(), arrayList);
+        songAdt = new SongAdapter(getContext(), arrayList);
         listView.setAdapter(songAdt);
         songAdt.notifyDataSetChanged();
 
+        musicViewModel = ViewModelProviders.of(getActivity()).get(MusicViewModel.class);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Bundle args = new Bundle();
-                MusicResolver mr = arrayList.get(i);
-                //args.putString(ARGS, mr.getTitle());
+                final MusicResolver  currsong = songAdt.getItem(i);
+                musicViewModel.select(currsong);
             }
         });
 
