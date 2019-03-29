@@ -9,33 +9,48 @@
 
     <Button
         android:id="@+id/play"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_toStartOf="@id/skip"
-        android:background="@android:drawable/ic_media_play"
+        android:layout_width="41dp"
+        android:layout_height="50dp"
+        android:layout_toStartOf="@+id/skip"
+        android:background="@drawable/round_pause_48dp"
+        android:backgroundTint="@color/sixthcolor"
         android:elevation="0dp" />
 
     <Button
         android:id="@+id/skip"
         android:layout_width="50dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentEnd="true"
-        android:background="@android:drawable/ic_media_next" />
+        android:background="@drawable/round_skip_next_48dp"
+        android:backgroundTint="@color/sixthcolor" />
 
     <TextView
         android:id="@+id/songtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toStartOf="@id/play"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="5dp"
+        android:layout_toStartOf="@+id/play"
         android:text="Title"
-        android:textSize="19sp" />
+        android:textColor="@color/sixthcolor"
+        android:textSize="18sp"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:scrollHorizontally="true"/>
 
     <TextView
         android:id="@+id/songartist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
         android:layout_below="@id/songtitle"
-        android:layout_toStartOf="@id/play"
+        android:layout_alignLeft="@id/play"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="5dp"
+        android:layout_toStartOf="@+id/play"
         android:text="Artist"
-        android:textSize="20sp" />
+        android:textColor="@color/sixthcolor"
+        android:textSize="18sp" />
 </RelativeLayout>

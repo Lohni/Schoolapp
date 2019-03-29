@@ -6,7 +6,7 @@ public class MusicResolver {
     private String title;
     private String artist;
 
-    public MusicResolver(Long id, String title, String artist){
+    public MusicResolver(long id, String title, String artist){
         this.id = id;
         this.title = title;
         this.artist = artist;

@@ -29,6 +29,7 @@
         <activity android:name=".Notes" />
         <activity android:name=".NoteView" />
         <activity android:name=".Musicplayer" />
+        <service android:name=".MusicService"/>
     </application>
 
 </manifest>

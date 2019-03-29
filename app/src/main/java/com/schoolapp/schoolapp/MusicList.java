@@ -1,6 +1,7 @@
 package com.schoolapp.schoolapp;
 
 import android.Manifest;
+import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.ContentResolver;
 import android.content.pm.PackageManager;
@@ -32,7 +33,6 @@ public class MusicList extends Fragment {
     private View view;
     private ArrayList<MusicResolver> arrayList;
     private ListView listView;
-    private OnFragmentInteractionListener mListener;
     private SongAdapter songAdt;
 
 
@@ -48,6 +48,28 @@ public class MusicList extends Fragment {
         return fragment;
     }
 
+    OnSonglistCreatedListener mCallback;
+    public interface OnSonglistCreatedListener{
+         void OnSonglistCreated(ArrayList<MusicResolver> songlist);
+    }
+
+    OnSongSelectedListener mSongSelected;
+    public interface OnSongSelectedListener{
+         void OnSongSelected(MusicResolver currsong);
+    }
+    
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mCallback = (OnSonglistCreatedListener) activity;
+            mSongSelected = (OnSongSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnSonglistCreatedListener");
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +83,7 @@ public class MusicList extends Fragment {
 
         arrayList = new ArrayList<>();
         getSongList();
-
+        mCallback.OnSonglistCreated(arrayList);
         Collections.sort(arrayList, new Comparator<MusicResolver>(){
             public int compare(MusicResolver a, MusicResolver b){
                 return a.getTitle().compareTo(b.getTitle());
@@ -78,10 +100,10 @@ public class MusicList extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 final MusicResolver  currsong = songAdt.getItem(i);
+                mSongSelected.OnSongSelected(currsong);
                 musicViewModel.select(currsong);
             }
         });
-
         return view;
     }
 
@@ -124,18 +146,7 @@ public class MusicList extends Fragment {
 
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-
-        void onFragmentInteraction(Uri uri);
-    }
 
     private boolean checkPermission() {
         //Check for READ_EXTERNAL_STORAGE access, using ContextCompat.checkSelfPermission()//
