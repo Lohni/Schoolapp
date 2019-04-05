@@ -6,10 +6,9 @@
     android:background="@color/firstcolor"
     tools:context=".Musicstate">
 
-
     <Button
         android:id="@+id/play"
-        android:layout_width="41dp"
+        android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_toStartOf="@+id/skip"
         android:background="@drawable/round_pause_48dp"
@@ -24,33 +23,82 @@
         android:background="@drawable/round_skip_next_48dp"
         android:backgroundTint="@color/sixthcolor" />
 
-    <TextView
-        android:id="@+id/songtitle"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/lineartitle"
+        android:layout_width="wrap_content"
         android:layout_height="25dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="5dp"
-        android:layout_toStartOf="@+id/play"
-        android:text="Title"
-        android:textColor="@color/sixthcolor"
-        android:textSize="18sp"
-        android:singleLine="true"
-        android:ellipsize="marquee"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:scrollHorizontally="true"/>
+        android:layout_above="@id/songartist"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@id/play">
+
+        <TextView
+            android:id="@+id/songtitle"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginStart="5dp"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="Title"
+            android:textColor="@color/sixthcolor"
+            android:textSize="18sp" />
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/songartist"
         android:layout_width="match_parent"
         android:layout_height="25dp"
-        android:layout_below="@id/songtitle"
+        android:layout_above="@id/seekbarlayout"
         android:layout_alignLeft="@id/play"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="-312dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="5dp"
         android:layout_toStartOf="@+id/play"
         android:text="Artist"
         android:textColor="@color/sixthcolor"
         android:textSize="18sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/play"
+        android:id="@+id/seekbarlayout">
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="20dp"
+
+            android:layout_marginEnd="25dp" />
+
+        <TextView
+            android:id="@+id/duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="2dp"
+            android:singleLine="true"
+            android:text="0:00" />
+
+        <TextView
+            android:id="@+id/currpos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="2dp"
+            android:text="0:00" />
+
+
+    </RelativeLayout>
 </RelativeLayout>
+
+

@@ -2,7 +2,6 @@ package com.schoolapp.schoolapp;
 
 import android.Manifest;
 import android.app.Activity;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.ContentResolver;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -34,9 +33,6 @@ public class MusicList extends Fragment {
     private ArrayList<MusicResolver> arrayList;
     private ListView listView;
     private SongAdapter songAdt;
-
-
-    private MusicViewModel musicViewModel;
 
     public MusicList() {
         // Required empty public constructor
@@ -95,13 +91,11 @@ public class MusicList extends Fragment {
         listView.setAdapter(songAdt);
         songAdt.notifyDataSetChanged();
 
-        musicViewModel = ViewModelProviders.of(getActivity()).get(MusicViewModel.class);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 final MusicResolver  currsong = songAdt.getItem(i);
                 mSongSelected.OnSongSelected(currsong);
-                musicViewModel.select(currsong);
             }
         });
         return view;
@@ -152,12 +146,8 @@ public class MusicList extends Fragment {
         //Check for READ_EXTERNAL_STORAGE access, using ContextCompat.checkSelfPermission()//
         int result = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
         //If the app does have this permission, then return true//
-        if (result == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        } else {
-            //If the app doesn’t have this permission, then return false//
-            return false;
-        }
+        //If the app doesn’t have this permission, then return false//
+        return result == PackageManager.PERMISSION_GRANTED;
     }
 
     private void requestPermission() {

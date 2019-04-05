@@ -10,18 +10,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.TextView;
-
 
 public class Musicstate extends Fragment{
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private TextView songtitle, songartist;
+    //Initialize Layout-Objects
+    private TextView songtitle, songartist, dur,cp;
     private Button play, skip;
-    private int playID = R.drawable.round_pause_48dp;
+    private SeekBar seekBar;
 
+    //
+    private int playID = R.drawable.round_pause_48dp;
+    private int seekto, currpos = 0, duration;
+
+    private boolean seekfromuser=false;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -40,9 +46,11 @@ public class Musicstate extends Fragment{
         return fragment;
     }
 
+    //Interface for Play Control
     OnStateChangeListener mChange;
     public interface OnStateChangeListener{
         void OnStateChanged(int changecode);
+        void OnSeekbarChanged(int seekpos);
         // Stop: 1, Play: 2, Skip: 3, Shuffle: 4;
     }
 
@@ -62,9 +70,11 @@ public class Musicstate extends Fragment{
         super.onCreate(savedInstanceState);
     }
 
+    //Communication(Viewmodel) between MusicList and Musicstate
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         MusicViewModel musicViewModel = ViewModelProviders.of(getActivity()).get(MusicViewModel.class);
         musicViewModel.getSelected().observe(getViewLifecycleOwner(), new Observer<MusicResolver>() {
             @Override
@@ -72,6 +82,8 @@ public class Musicstate extends Fragment{
                     songtitle.setText(musicResolver.getTitle());
                     songartist.setText(musicResolver.getArtist());
                     play.setBackgroundResource(R.drawable.round_pause_48dp);
+                    playID= R.drawable.round_pause_48dp;
+                    seekBar.setProgress(0);
             }
         });
     }
@@ -86,6 +98,9 @@ public class Musicstate extends Fragment{
         songartist = view.findViewById(R.id.songartist);
         play = view.findViewById(R.id.play);
         skip = view.findViewById(R.id.skip);
+        seekBar = view.findViewById(R.id.seekBar);
+        dur = view.findViewById(R.id.duration);
+        cp = view.findViewById(R.id.currpos);
 
         play.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,28 +109,71 @@ public class Musicstate extends Fragment{
                 mChange.OnStateChanged(1);
             }
         });
-
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
              mChange.OnStateChanged(3);
             }
         });
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+                if(!seekfromuser){
+                    seekto = i;
+                    mChange.OnSeekbarChanged(seekto);
+                }
+                seekfromuser=false;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        final SeekbarViewModel seekbarViewModel = ViewModelProviders.of(getActivity()).get(SeekbarViewModel.class);
+        seekbarViewModel.getCurrpos().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer newpos) {
+                seekfromuser=true;
+                seekBar.setProgress(newpos);
+                float d = newpos/1000;
+                d = d/60;
+                int min = (int)d;
+                float seconds = (d -min)*60;
+                int sec = (int)seconds;
+               if(sec < 10)cp.setText(min + ":0" + sec);
+               else cp.setText(min + ":" + sec);
+            }
+        });
+
+        seekbarViewModel.getDuration().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer durationn) {
+                float d = durationn /1000;
+                d = d/60;
+                int min = (int)d;
+                float seconds = (d - min)*60;
+                int sec = (int)seconds;
+                dur.setText(min + ":" + sec);
+                seekBar.setMax(durationn);
+            }
+        });
+
         return view;
     }
 
+    //Change Button Imsage after Interaction
     public void buttonimage(){
         switch(playID){
             case R.drawable.round_play_arrow_48dp:  play.setBackgroundResource(R.drawable.round_pause_48dp); playID= R.drawable.round_pause_48dp; break;
             case R.drawable.round_pause_48dp:       play.setBackgroundResource(R.drawable.round_play_arrow_48dp);playID= R.drawable.round_play_arrow_48dp; break;
         }
-    }
-
-    public void setTitle(MusicResolver song){
-        songtitle.setText(song.getTitle());
-    }
-
-    public void setArtist(MusicResolver song){
-        songartist.setText(song.getArtist());
     }
 }

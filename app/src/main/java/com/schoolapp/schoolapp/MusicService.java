@@ -25,6 +25,9 @@ public class MusicService extends Service implements
     //current position
     private int songPosn;
     private final IBinder musicBind = new MusicBinder();
+    PreparedInterface pI;
+    private Boolean inEndState = false;
+
 
     @Override
     public void onCreate() {
@@ -35,6 +38,14 @@ public class MusicService extends Service implements
         //create player
         player = new MediaPlayer();
         initMusicPlayer();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+            player.stop();
+            player.release();
+            inEndState = true;
     }
 
     public void initMusicPlayer(){
@@ -59,14 +70,14 @@ public class MusicService extends Service implements
 
     @Override
     public boolean onUnbind(Intent intent){
-        player.stop();
-        player.release();
+            player.stop();
+            player.release();
+            inEndState = true;
         return false;
     }
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
-
     }
 
     @Override
@@ -77,6 +88,7 @@ public class MusicService extends Service implements
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
         mediaPlayer.start();
+        pI.onPreparedListener(true);
     }
 
     public class MusicBinder extends Binder {
@@ -86,6 +98,11 @@ public class MusicService extends Service implements
     }
 
     public void playSong(){
+        if(inEndState){
+            player = new MediaPlayer();
+            initMusicPlayer();
+        }
+
         player.reset();
         //get song
         //get id
@@ -94,7 +111,6 @@ public class MusicService extends Service implements
         Uri trackUri = ContentUris.withAppendedId(
                 android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 songId);
-
         try{
             player.setDataSource(getApplicationContext(), trackUri);
         }
@@ -112,8 +128,9 @@ public class MusicService extends Service implements
         return player.getCurrentPosition();
     }
 
-    public int getDur(){
-        return player.getDuration();
+    public int getDur() {
+        if(player.isPlaying())return player.getDuration();
+        else return 0;
     }
 
     public boolean isPng(){
@@ -140,6 +157,10 @@ public class MusicService extends Service implements
 
     public MusicResolver getSong(){
         return currsong;
+    }
+
+    public void setInterface(PreparedInterface pl){
+        this.pI = pl;
     }
 
 }

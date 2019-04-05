@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,7 +18,7 @@ import android.view.View;
 
 import java.util.ArrayList;
 
-public class Musicplayer extends AppCompatActivity implements  MusicList.OnSonglistCreatedListener, MusicList.OnSongSelectedListener, Musicstate.OnStateChangeListener {
+public class Musicplayer extends AppCompatActivity implements  MusicList.OnSonglistCreatedListener, MusicList.OnSongSelectedListener, Musicstate.OnStateChangeListener, PreparedInterface {
 
     protected ViewPager mViewPager;
     private View view;
@@ -27,8 +28,14 @@ public class Musicplayer extends AppCompatActivity implements  MusicList.OnSongl
     private MusicService musicSrv;
     private Intent playIntent;
     private boolean musicBound=false;
-    private int songposnr;
 
+    //Init Viewmodel
+    private SeekbarViewModel seekbarViewModel;
+    private MusicViewModel musicViewModel;
+
+    private PreparedInterface preparedInterface;
+    private Boolean isOnPause = false;
+    Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +44,26 @@ public class Musicplayer extends AppCompatActivity implements  MusicList.OnSongl
         loadFragment( new Musicstate());
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        seekbarViewModel = ViewModelProviders.of(this).get(SeekbarViewModel.class);
+        musicViewModel = ViewModelProviders.of(this).get(MusicViewModel.class);
+        preparedInterface = this;
+    }
 
-        //view = findViewById(R.id.line);
+
+     Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if(!isOnPause)seekUpdation();
+
+        }
+    };
+
+
+    public void seekUpdation(){
+        seekbarViewModel.setCurrpos(musicSrv.getPosn());
+        mHandler.postDelayed(runnable, 500);
     }
 
     //connect to the service
@@ -53,6 +76,7 @@ public class Musicplayer extends AppCompatActivity implements  MusicList.OnSongl
             musicSrv = binder.getService();
             //pass list
             musicSrv.setList(arrayList);
+            musicSrv.setInterface(preparedInterface);
             musicBound = true;
         }
 
@@ -79,7 +103,6 @@ public class Musicplayer extends AppCompatActivity implements  MusicList.OnSongl
         ft.commit();
     }
 
-
     @Override
     public void OnSonglistCreated(ArrayList<MusicResolver> songlist) {
         arrayList = songlist;
@@ -87,20 +110,18 @@ public class Musicplayer extends AppCompatActivity implements  MusicList.OnSongl
 
     @Override
     public void OnSongSelected(MusicResolver currsong) {
-        setSelectedSong(currsong);
-    }
-
-    private void setSelectedSong(MusicResolver currsong){
         musicSrv.setSong(currsong);
         musicSrv.playSong();
+        musicViewModel.select(musicSrv.getSong());
+        isOnPause = false;
     }
 
     @Override
     public void OnStateChanged(int changecode) {
         switch(changecode){
             case 1 : {
-                if(musicSrv.isPng())musicSrv.pausePlayer();
-                else musicSrv.go();
+                if(musicSrv.isPng()){musicSrv.pausePlayer(); isOnPause=true;}
+                else {musicSrv.go(); isOnPause=false; seekUpdation();}
                 break;
             }
             case 2 : break;
@@ -111,6 +132,17 @@ public class Musicplayer extends AppCompatActivity implements  MusicList.OnSongl
                       break;
             }
         }
+    }
+
+    @Override
+    public void OnSeekbarChanged(int seekpos) {
+        musicSrv.seek(seekpos);
+    }
+
+    @Override
+    public void onPreparedListener(Boolean prepared) {
+        seekbarViewModel.setDuration(musicSrv.getDur());
+        seekUpdation();
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -132,12 +164,23 @@ public class Musicplayer extends AppCompatActivity implements  MusicList.OnSongl
             }
             return fragment;
         }
-        
+
+
         @Override
         public int getCount() {
-            // Show 2 total pages.
+            // Show 2 total pages
             return 2;
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        isOnPause = true;
+        mHandler.removeCallbacks(runnable);
+        playIntent=null;
+    }
+
+
 }
 
