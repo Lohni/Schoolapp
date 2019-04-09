@@ -159,7 +159,7 @@ public class Musicplayer extends AppCompatActivity implements  MusicList.OnSongl
                     fragment = MusicList.newInstance();
                     break;
                 case 1:
-                    fragment = MusicList.newInstance();
+                    fragment = Playlist.newInstance();
                     break;
             }
             return fragment;
@@ -179,8 +179,9 @@ public class Musicplayer extends AppCompatActivity implements  MusicList.OnSongl
         isOnPause = true;
         mHandler.removeCallbacks(runnable);
         playIntent=null;
+        if (musicConnection != null) {
+            unbindService(musicConnection);
+        }
     }
-
-
 }
 

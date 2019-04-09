@@ -31,4 +31,5 @@ dependencies {
     implementation 'com.ebanx:swipe-button:0.8.3'
     implementation "android.arch.lifecycle:extensions:1.1.1"
     annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
+
 }

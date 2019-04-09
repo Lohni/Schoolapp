@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <EditText
+        android:id="@+id/playlisttitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:imeActionLabel="Done"
+        android:imeOptions="actionDone"
+        android:background="@android:color/transparent"
+        android:longClickable="true" />
+
+    <TextView
+        android:id="@+id/songsize"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:longClickable="true"/>
+
+</LinearLayout>
