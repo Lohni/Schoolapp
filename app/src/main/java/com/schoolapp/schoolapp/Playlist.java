@@ -1,33 +1,26 @@
 package com.schoolapp.schoolapp;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.PaintDrawable;
-import android.graphics.drawable.StateListDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.io.File;
 import java.util.ArrayList;
 
-public class Playlist extends Fragment implements PlaylistNameInterface {
+public class Playlist extends Fragment {
 
     //Database
     private databasehelper databasehelper;
-    //private Cursor data;
 
     private View view;
 
@@ -37,23 +30,28 @@ public class Playlist extends Fragment implements PlaylistNameInterface {
     private PlaylistAdapter pAdapter;
     //ArrayLists for Listview
     private ArrayList<String> playlisttitle, songsize;
-    private ArrayList<Integer> selected;
-
-    private PlaylistNameInterface pni;
+    private String newtable;
 
     public Playlist() {
         // Required empty public constructor
     }
 
-    public static Playlist newInstance() {
+
+
+    public static Playlist newInstance(PlaylistselectedListener p) {
         Playlist fragment = new Playlist();
+        psL = p;
         return fragment;
+    }
+
+    static PlaylistselectedListener psL;
+    public interface PlaylistselectedListener{
+        void onPlaylistSelected(String table);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pni = this;
     }
 
     @Override
@@ -65,25 +63,51 @@ public class Playlist extends Fragment implements PlaylistNameInterface {
         playlist = view.findViewById(R.id.playlist);
         databasehelper = new databasehelper(getActivity());
 
-        //GetPlaylists();g
-        playlist.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        playlist.setLongClickable(true);
         populateListView();
 
-        //OnClickListeners
-        playlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            }
-        });
         addplaylist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(databasehelper.newTable())Toast.makeText(getActivity(),"Playlist created", Toast.LENGTH_SHORT).show();
-                else Toast.makeText(getActivity(),"Playlist already exists", Toast.LENGTH_SHORT).show();
-                populateListView();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Title");
+
+                // Set up the input
+                final EditText input = new EditText(getContext());
+                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+
+                // Set up the buttons
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        newtable = input.getText().toString();
+                        if(databasehelper.newTable(newtable)){
+                            Toast.makeText(getActivity(),"Playlist created", Toast.LENGTH_SHORT).show();
+                            playlisttitle.add(newtable);
+                            pAdapter.notifyDataSetChanged();
+                        }
+                        else Toast.makeText(getActivity(),"Playlist already exists", Toast.LENGTH_SHORT).show();
+                        populateListView();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
             }
         });
+
+        playlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                psL.onPlaylistSelected(pAdapter.getItem(i));
+            }
+        });
+
         playlist.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -91,6 +115,7 @@ public class Playlist extends Fragment implements PlaylistNameInterface {
                 return true;
             }
         });
+
         // Inflate the layout for this fragment
         return view;
     }
@@ -108,7 +133,6 @@ public class Playlist extends Fragment implements PlaylistNameInterface {
         }
         pAdapter = new PlaylistAdapter(getActivity(), playlisttitle, songsize);
         playlist.setAdapter(pAdapter);
-        pAdapter.setPlaylistNameInterface(pni);
     }
 
     private boolean deletePlaylist(final String name, final int position) {
@@ -140,8 +164,8 @@ public class Playlist extends Fragment implements PlaylistNameInterface {
     }
 
     @Override
-    public void OnPlaylistNameChanged(String newname, String oldname) {
-        if(databasehelper.renameTable(newname, oldname))Toast.makeText(getActivity(), "Rename successfull", Toast.LENGTH_SHORT).show();
-        else Toast.makeText(getActivity(), "Rename failed", Toast.LENGTH_SHORT).show();
+    public void onDestroy() {
+        super.onDestroy();
+        databasehelper.close();
     }
 }

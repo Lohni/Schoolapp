@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/firstcolor"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/gradient"
     tools:context=".Musicstate">
 
     <Button
@@ -12,7 +13,7 @@
         android:layout_height="50dp"
         android:layout_toStartOf="@+id/skip"
         android:background="@drawable/round_pause_48dp"
-        android:backgroundTint="@color/sixthcolor"
+        android:backgroundTint="@color/text"
         android:elevation="0dp" />
 
     <Button
@@ -21,15 +22,17 @@
         android:layout_height="50dp"
         android:layout_alignParentEnd="true"
         android:background="@drawable/round_skip_next_48dp"
-        android:backgroundTint="@color/sixthcolor" />
+        android:backgroundTint="@color/text" />
 
     <LinearLayout
         android:id="@+id/lineartitle"
         android:layout_width="wrap_content"
-        android:layout_height="25dp"
-        android:layout_above="@id/songartist"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@id/play">
+        android:layout_toStartOf="@id/play"
+        android:orientation="vertical"
+        android:clickable="true">
 
         <TextView
             android:id="@+id/songtitle"
@@ -43,62 +46,74 @@
             android:scrollHorizontally="true"
             android:singleLine="true"
             android:text="Title"
-            android:textColor="@color/sixthcolor"
-            android:textSize="18sp" />
+            android:textColor="@color/text"
+            android:textSize="18sp"
+            />
+
+        <TextView
+            android:id="@+id/songartist"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="-312dp"
+            android:layout_marginTop="0dp"
+            android:text="Artist"
+            android:textColor="@color/text"
+            android:textSize="18sp"
+            android:layout_weight="1"/>
     </LinearLayout>
 
 
-    <TextView
-        android:id="@+id/songartist"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:layout_above="@id/seekbarlayout"
-        android:layout_alignLeft="@id/play"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="-312dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="5dp"
-        android:layout_toStartOf="@+id/play"
-        android:text="Artist"
-        android:textColor="@color/sixthcolor"
-        android:textSize="18sp" />
-
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/seekbarlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_below="@id/play"
-        android:id="@+id/seekbarlayout">
+        android:layout_marginStart="5dp"
+        android:backgroundTint="@color/text"
+        android:orientation="horizontal">
 
         <SeekBar
             android:id="@+id/seekBar"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-
-            android:layout_marginEnd="25dp" />
+            android:progressBackgroundTint="@color/textsecondary"
+            android:progressTint="@color/text"
+            android:secondaryProgressTint="@color/GradientDark"
+            android:thumbTint="@color/text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/duration"
+            app:layout_constraintStart_toEndOf="@id/currpos"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/duration"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="2dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="2dp"
             android:singleLine="true"
-            android:text="0:00" />
+            android:text="0:00"
+            android:textColor="@color/text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/seekBar"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/currpos"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="2dp"
-            android:text="0:00" />
+            android:layout_height="0dp"
+            android:layout_marginStart="2dp"
+            android:text="0:00"
+            android:textColor="@color/text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/seekBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-    </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
 </RelativeLayout>
 
 

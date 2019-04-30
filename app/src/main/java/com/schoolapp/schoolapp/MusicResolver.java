@@ -5,6 +5,7 @@ public class MusicResolver {
     private long id;
     private String title;
     private String artist;
+    private boolean ischecked=false;
 
     public MusicResolver(long id, String title, String artist){
         this.id = id;
@@ -23,5 +24,9 @@ public class MusicResolver {
     public String getArtist() {
         return artist;
     }
+
+    public void setChecked(boolean checked){ischecked = checked;}
+
+    public boolean getChecked(){return ischecked;}
 
 }

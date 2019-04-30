@@ -151,7 +151,9 @@ public class MusicService extends Service implements
 
     public void skip(){
         int pos = songs.indexOf(currsong);
-        setSong(songs.get(pos+1));
+        int max = songs.size() - 1;
+        if(pos<max)setSong(songs.get(pos+1));
+        else setSong(songs.get(0));
         playSong();
     }
 
@@ -162,5 +164,4 @@ public class MusicService extends Service implements
     public void setInterface(PreparedInterface pl){
         this.pI = pl;
     }
-
 }

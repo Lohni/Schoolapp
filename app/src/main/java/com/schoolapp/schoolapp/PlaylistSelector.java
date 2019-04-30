@@ -1,7 +1,6 @@
 package com.schoolapp.schoolapp;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -17,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -24,46 +24,27 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Objects;
 
-public class MusicList extends Fragment {
+public class PlaylistSelector extends Fragment {
 
-    private static final int PERMISSION_REQUEST_CODE = 0x03 ;
-
-    // TODO: Rename and change types of parameters
+    private static final int PERMISSION_REQUEST_CODE = 0x03;
     private View view;
+    private ListView selection;
     private ArrayList<MusicResolver> arrayList;
-    private ListView listView;
-    private SongAdapter songAdt;
+    private SelectionAdapter sAdapter;
+    private Button selected;
 
-    public MusicList() {
+    private static String table;
+    private static databasehelper db;
+
+    public PlaylistSelector() {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static MusicList newInstance() {
-        MusicList fragment = new MusicList();
+    public static PlaylistSelector newInstance(String tab, databasehelper databasehelper) {
+        PlaylistSelector fragment = new PlaylistSelector();
+        table = tab;
+        db = databasehelper;
         return fragment;
-    }
-
-    OnSonglistCreatedListener mCallback;
-    public interface OnSonglistCreatedListener{
-         void OnSonglistCreated(ArrayList<MusicResolver> songlist);
-    }
-
-    OnSongSelectedListener mSongSelected;
-    public interface OnSongSelectedListener{
-         void OnSongSelected(MusicResolver currsong);
-    }
-    
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mCallback = (OnSonglistCreatedListener) activity;
-            mSongSelected = (OnSongSelectedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnSonglistCreatedListener");
-        }
     }
 
     @Override
@@ -71,30 +52,41 @@ public class MusicList extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_music_list, container, false);
-
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_playlist_selector, container, false);
+        selection = view.findViewById(R.id.selection);
+        selected = view.findViewById(R.id.selected);
         arrayList = new ArrayList<>();
         getSongList();
-        mCallback.OnSonglistCreated(arrayList);
         Collections.sort(arrayList, new Comparator<MusicResolver>(){
             public int compare(MusicResolver a, MusicResolver b){
                 return a.getTitle().compareTo(b.getTitle());
             }
         });
 
-        listView = view.findViewById(R.id.songlist);
-        songAdt = new SongAdapter(getContext(), arrayList);
-        listView.setAdapter(songAdt);
+        sAdapter = new SelectionAdapter(getContext(), arrayList);
+        selection.setAdapter(sAdapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        selection.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                final MusicResolver  currsong = songAdt.getItem(i);
-                mSongSelected.OnSongSelected(currsong);
+                MusicResolver mr = sAdapter.getItem(i);
+                if(mr.getChecked())mr.setChecked(false);
+                else mr.setChecked(true);
+                arrayList.set(i, mr);
+                sAdapter.notifyDataSetChanged();
+            }
+        });
+
+        selected.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setSelected();
+                getActivity().getSupportFragmentManager().popBackStackImmediate();
+
             }
         });
         return view;
@@ -148,6 +140,14 @@ public class MusicList extends Fragment {
         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
     }
 
-
-
+    private void setSelected(){
+        int i = 0, max = arrayList.size();
+        while (i < max){
+            MusicResolver mr = arrayList.get(i);
+            if(mr.getChecked()){
+                db.addNew(mr.getTitle(), mr.getArtist(), mr.getId(), table);
+            }
+            i = i + 1;
+        }
+    }
 }

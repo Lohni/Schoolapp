@@ -3,25 +3,23 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="5dp">
+    android:padding="5dp"
+    android:descendantFocusability="blocksDescendants">
 
-    <EditText
+    <TextView
         android:id="@+id/playlisttitle"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:imeActionLabel="Done"
-        android:imeOptions="actionDone"
-        android:background="@android:color/transparent"
-        android:longClickable="true" />
+        android:textColor="@color/text"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/songsize"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:longClickable="true"/>
+        android:textColor="@color/textsecondary"
+        android:textSize="16sp" />
 
 </LinearLayout>

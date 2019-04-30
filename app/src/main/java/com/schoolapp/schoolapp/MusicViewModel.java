@@ -8,7 +8,6 @@ public class MusicViewModel extends ViewModel {
     private final MutableLiveData<MusicResolver> selected = new MutableLiveData<MusicResolver>();
 
     public void select (MusicResolver musicResolver){
-
         selected.setValue(musicResolver);
     }
 

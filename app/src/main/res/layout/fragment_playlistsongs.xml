@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:context=".Playlistsongs"
+    android:background="@drawable/gradient">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <ListView
+        android:id="@+id/playlistsongs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:divider="@drawable/customdivider"
+        android:dividerHeight="1dp" />
+
+    <Button
+        android:id="@+id/addsongs"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:background="@android:drawable/ic_input_add"
+        android:backgroundTint="@color/text"
+        android:textColor="@color/firstcolor"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/table"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/toolbar"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="10dp"
+        android:singleLine="true"
+        android:textAlignment="center"
+        android:textColor="@color/text"
+        android:textSize="24sp" />
+
+
+</RelativeLayout>

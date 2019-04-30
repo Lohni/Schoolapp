@@ -1,15 +1,12 @@
 package com.schoolapp.schoolapp;
 
-import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-
-import java.util.ArrayList;
 
 public class databasehelper extends SQLiteOpenHelper {
 
@@ -33,10 +30,10 @@ public class databasehelper extends SQLiteOpenHelper {
             onCreate(db);
         }
 
-        public boolean newTable() {
+        public boolean newTable(String tablename) {
             SQLiteDatabase db = this.getWritableDatabase();
             try {
-                db.execSQL("CREATE TABLE IF NOT EXISTS " + "NewPlaylist" + " (ID INTEGER PRIMARY KEY, TITLE TEXT, ARTIST TEXT)");
+                db.execSQL("CREATE TABLE IF NOT EXISTS " + tablename + " (ID INTEGER PRIMARY KEY, TITLE TEXT, ARTIST TEXT)");
                 return true;
             } catch (SQLiteException e){
                 Log.e("DATABASE", "Table doesnt exist", e);
@@ -59,22 +56,29 @@ public class databasehelper extends SQLiteOpenHelper {
             TABLE_NAME = currtable;
         }
 
-        public boolean addNew(String title, String artist, long id){
+        public boolean addNew(String title, String artist, long id, String table){
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
             contentValues.put(COL1, id);
             contentValues.put(COL2, title);
             contentValues.put(COL3, artist);
 
-            long result = db.insert(TABLE_NAME, null, contentValues);
+            long result = db.insert(table, null, contentValues);
             //if date as inserted incorrectly it will return -1
             return result != -1;
         }
 
         public Cursor getListContents(String tablename){
             SQLiteDatabase db = this.getWritableDatabase();
-            Cursor data = db.rawQuery("SELECT  *  FROM " + tablename, null);
-            return data;
+            Cursor data;
+            try{
+                data = db.rawQuery("SELECT  *  FROM " + tablename, null);
+                return data;
+            }
+            catch (SQLiteException e){
+                Log.e("DATABASE", "Table doesn't exist", e);
+                return null;
+            }
         }
 
         public Cursor getTables(){
@@ -107,6 +111,11 @@ public class databasehelper extends SQLiteOpenHelper {
                 Log.e("ALTER TABLE", "RENAME ERROR", e);
                 return false;
             }
+        }
+
+        public boolean deleteItem(String table, long id){
+            SQLiteDatabase db = this.getWritableDatabase();
+            return db.delete(table, COL1 + "=" + id, null) > 0;
         }
     }
 

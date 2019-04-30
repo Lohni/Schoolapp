@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Musicstate extends Fragment{
 
@@ -19,6 +21,7 @@ public class Musicstate extends Fragment{
     private TextView songtitle, songartist, dur,cp;
     private Button play, skip;
     private SeekBar seekBar;
+    private LinearLayout songinfos;
 
     //
     private int playID = R.drawable.round_pause_48dp;
@@ -90,6 +93,7 @@ public class Musicstate extends Fragment{
         seekBar = view.findViewById(R.id.seekBar);
         dur = view.findViewById(R.id.duration);
         cp = view.findViewById(R.id.currpos);
+        songinfos = view.findViewById(R.id.lineartitle);
 
         play.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,6 +156,13 @@ public class Musicstate extends Fragment{
                 int sec = (int)seconds;
                 dur.setText(min + ":" + sec);
                 seekBar.setMax(durationn);
+            }
+        });
+
+        songinfos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(), "Absolute Playback Control in Development", Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -10,18 +10,14 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 
 import java.util.ArrayList;
 
-public class Musicplayer extends AppCompatActivity implements  MusicList.OnSonglistCreatedListener, MusicList.OnSongSelectedListener, Musicstate.OnStateChangeListener, PreparedInterface {
+public class Musicplayer extends AppCompatActivity
+        implements  MusicList.OnSonglistCreatedListener, MusicList.OnSongSelectedListener, Musicstate.OnStateChangeListener, PreparedInterface, Playlistsongs.OnPlaylistSongSelectedListener{
 
-    protected ViewPager mViewPager;
-    private View view;
     private ArrayList<MusicResolver> arrayList;
 
     //For Music Service
@@ -41,16 +37,13 @@ public class Musicplayer extends AppCompatActivity implements  MusicList.OnSongl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_musicplayer);
-        loadFragment( new Musicstate());
-        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        loadMusicstate( new Musicstate());
+        loadStartpage();
         // Set up the ViewPager with the sections adapter.
-        mViewPager = findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
         seekbarViewModel = ViewModelProviders.of(this).get(SeekbarViewModel.class);
         musicViewModel = ViewModelProviders.of(this).get(MusicViewModel.class);
         preparedInterface = this;
     }
-
 
      Runnable runnable = new Runnable() {
         @Override
@@ -59,7 +52,6 @@ public class Musicplayer extends AppCompatActivity implements  MusicList.OnSongl
 
         }
     };
-
 
     public void seekUpdation(){
         seekbarViewModel.setCurrpos(musicSrv.getPosn());
@@ -96,10 +88,17 @@ public class Musicplayer extends AppCompatActivity implements  MusicList.OnSongl
         }
     }
 
-    private void loadFragment(Fragment fragment) {
+    private void loadMusicstate(Fragment fragment) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.add(R.id.playstate, fragment);
+        ft.commit();
+    }
+
+    private void loadStartpage() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.container, StartpageMusic.newInstance(fm));
         ft.commit();
     }
 
@@ -145,34 +144,6 @@ public class Musicplayer extends AppCompatActivity implements  MusicList.OnSongl
         seekUpdation();
     }
 
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            Fragment fragment = null;
-            switch (position){
-                case 0:
-                    fragment = MusicList.newInstance();
-                    break;
-                case 1:
-                    fragment = Playlist.newInstance();
-                    break;
-            }
-            return fragment;
-        }
-
-
-        @Override
-        public int getCount() {
-            // Show 2 total pages
-            return 2;
-        }
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -182,6 +153,20 @@ public class Musicplayer extends AppCompatActivity implements  MusicList.OnSongl
         if (musicConnection != null) {
             unbindService(musicConnection);
         }
+    }
+
+    @Override
+    public void OnPlaylistSongSelected(MusicResolver currsong) {
+        musicSrv.pausePlayer();
+        musicSrv.setSong(currsong);
+        musicSrv.playSong();
+        musicViewModel.select(musicSrv.getSong());
+    }
+
+    @Override
+    public void setPlaylist(ArrayList<MusicResolver> playlist) {
+        arrayList = playlist;
+        musicSrv.setList(arrayList);
     }
 }
 

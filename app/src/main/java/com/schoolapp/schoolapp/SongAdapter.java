@@ -44,8 +44,8 @@ public class SongAdapter extends BaseAdapter {
         LinearLayout songLay = (LinearLayout)songInf.inflate
                 (R.layout.song, parent, false);
         //get title and artist views
-        TextView songView = (TextView)songLay.findViewById(R.id.song_title);
-        TextView artistView = (TextView)songLay.findViewById(R.id.song_artist);
+        TextView songView = songLay.findViewById(R.id.song_title);
+        TextView artistView = songLay.findViewById(R.id.song_artist);
         //get song using position
         MusicResolver currSong = songs.get(position);
         //get title and artist strings
@@ -56,4 +56,7 @@ public class SongAdapter extends BaseAdapter {
         return songLay;
     }
 
+    public void remove(int position){
+        songs.remove(position);
+    }
 }

@@ -3,33 +3,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Musicplayer">
 
-
-    <android.support.v4.view.ViewPager
+    <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        android:layout_above="@id/line"
-        android:background="@color/firstcolor"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/line"
+        android:layout_alignTop="@id/line"
+        android:layout_alignParentTop="true">
+
+        <fragment
+            android:id="@+id/fragmentt"
+            android:name="com.schoolapp.schoolapp.StartpageMusic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@layout/fragment_startpage_music" />
+    </FrameLayout>
 
     <View
         android:id="@+id/line"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/colorPrimaryDark"
+        android:layout_height="1dp"
         android:layout_above="@id/playstate"
-        />
+        android:background="@color/text" />
 
     <FrameLayout
         android:id="@+id/playstate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        >
+        android:layout_alignParentBottom="true">
 
         <fragment
             android:name="com.schoolapp.schoolapp.Musicstate"

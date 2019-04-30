@@ -10,4 +10,10 @@
     <color name="fifthcolor">#55656A</color>
     <color name="sixthcolor">#3C5157</color>
 
+    <color name="gradientstart">#632323</color>
+    <color name="gradientend">#3A1915</color>
+    <color name="text">#FFD3D3</color>
+    <color name="textsecondary">#C08E8E</color>
+    <color name="GradientDark">#200000</color>
+
 </resources>
