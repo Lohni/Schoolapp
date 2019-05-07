@@ -15,6 +15,8 @@ public class databasehelper extends SQLiteOpenHelper {
         private static final String COL1 = "ID";
         private static final String COL2 = "TITLE";
         private static final String COL3 = "ARTIST";
+        private static final String COL4 = "ALBUM_ID";
+
 
         databasehelper(Context context) {
             super(context, DATABASE_NAME, null, 1);
@@ -33,7 +35,7 @@ public class databasehelper extends SQLiteOpenHelper {
         public boolean newTable(String tablename) {
             SQLiteDatabase db = this.getWritableDatabase();
             try {
-                db.execSQL("CREATE TABLE IF NOT EXISTS " + tablename + " (ID INTEGER PRIMARY KEY, TITLE TEXT, ARTIST TEXT)");
+                db.execSQL("CREATE TABLE IF NOT EXISTS " + tablename + " (ID INTEGER PRIMARY KEY, TITLE TEXT, ARTIST TEXT, ALBUM_ID INTEGER)");
                 return true;
             } catch (SQLiteException e){
                 Log.e("DATABASE", "Table doesnt exist", e);
@@ -56,13 +58,13 @@ public class databasehelper extends SQLiteOpenHelper {
             TABLE_NAME = currtable;
         }
 
-        public boolean addNew(String title, String artist, long id, String table){
+        public boolean addNew(String title, String artist, long id, String table, long album_id){
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
             contentValues.put(COL1, id);
             contentValues.put(COL2, title);
             contentValues.put(COL3, artist);
-
+            contentValues.put(COL4, album_id);
             long result = db.insert(table, null, contentValues);
             //if date as inserted incorrectly it will return -1
             return result != -1;

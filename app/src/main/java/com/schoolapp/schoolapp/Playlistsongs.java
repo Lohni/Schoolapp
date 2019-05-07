@@ -28,7 +28,7 @@ public class Playlistsongs extends Fragment{
     private ListView playlistsongs;
     private ArrayList<MusicResolver> songlist;
     private static String table;
-    private Button add;
+    private Button add, nav_drawer;
     public SongAdapter songAdapter;
 
     public Playlistsongs() {
@@ -71,6 +71,7 @@ public class Playlistsongs extends Fragment{
         playlistsongs = view.findViewById(R.id.playlistsongs);
         playlist = view.findViewById(R.id.table);
         add = view.findViewById(R.id.addsongs);
+        nav_drawer = view.findViewById(R.id.menubttn);
         playlist.setText(table);
         db = new databasehelper(getActivity());
         getSonglist();
@@ -86,7 +87,12 @@ public class Playlistsongs extends Fragment{
                 }
             }
         });
-
+        nav_drawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((Musicplayer)getActivity()).openDrawer();
+            }
+        });
         playlistsongs.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -114,7 +120,8 @@ public class Playlistsongs extends Fragment{
                 long thisId = data.getLong(0);
                 String thisTitle = data.getString(1);
                 String thisArtist = data.getString(2);
-                songlist.add(new MusicResolver(thisId,thisTitle,thisArtist));
+                long albumid = data.getLong(3);
+                songlist.add(new MusicResolver(thisId,thisTitle,thisArtist, albumid));
             }
         } else {
             //Toast.makeText(getActivity(), "Table doesnt exist", Toast.LENGTH_SHORT).show();

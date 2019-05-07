@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,7 @@ import android.widget.Toast;
 public class StartpageMusic extends Fragment {
 
     private View view;
-    private Button favourite, allsongs, playlists;
+    private Button favourite, allsongs, playlists, opendrawer;
     private static FragmentManager fm;
 
     public StartpageMusic() {
@@ -40,7 +41,7 @@ public class StartpageMusic extends Fragment {
         playlists = view.findViewById(R.id.playlistbttn);
         allsongs = view.findViewById(R.id.allsongbttn);
         favourite = view.findViewById(R.id.favouritesbttn);
-
+        opendrawer = view.findViewById(R.id.menubttn);
         playlists.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,6 +60,12 @@ public class StartpageMusic extends Fragment {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getActivity(), "Coming soon", Toast.LENGTH_SHORT).show();
+            }
+        });
+        opendrawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((Musicplayer)getActivity()).openDrawer();
             }
         });
 

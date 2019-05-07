@@ -3,6 +3,7 @@ package com.schoolapp.schoolapp;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -33,6 +35,7 @@ public class MusicList extends Fragment {
     private ArrayList<MusicResolver> arrayList;
     private ListView listView;
     private SongAdapter songAdt;
+    private Button nav_drawer;
 
     public MusicList() {
         // Required empty public constructor
@@ -76,10 +79,10 @@ public class MusicList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_music_list, container, false);
-
+        nav_drawer = view.findViewById(R.id.menubttn);
         arrayList = new ArrayList<>();
         getSongList();
-        mCallback.OnSonglistCreated(arrayList);
+
         Collections.sort(arrayList, new Comparator<MusicResolver>(){
             public int compare(MusicResolver a, MusicResolver b){
                 return a.getTitle().compareTo(b.getTitle());
@@ -95,8 +98,16 @@ public class MusicList extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 final MusicResolver  currsong = songAdt.getItem(i);
                 mSongSelected.OnSongSelected(currsong);
+                mCallback.OnSonglistCreated(arrayList);
             }
         });
+        nav_drawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((Musicplayer)getActivity()).openDrawer();
+            }
+        });
+
         return view;
     }
 
@@ -125,15 +136,18 @@ public class MusicList extends Fragment {
                     (MediaStore.Audio.Media._ID);
             int artistColumn = musicCursor.getColumnIndex
                     (android.provider.MediaStore.Audio.Media.ARTIST);
+            int albumid = musicCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID);
             //add songs to list
             do {
+                long thisalbumid = musicCursor.getLong(albumid);
                 long thisId = musicCursor.getLong(idColumn);
                 String thisTitle = musicCursor.getString(titleColumn);
                 String thisArtist = musicCursor.getString(artistColumn);
-                arrayList.add(new MusicResolver(thisId, thisTitle, thisArtist));
+                arrayList.add(new MusicResolver(thisId, thisTitle, thisArtist, thisalbumid));
             }
             while (musicCursor.moveToNext());
         }
+        if(musicCursor != null)musicCursor.close();
     }
 
     private boolean checkPermission() {

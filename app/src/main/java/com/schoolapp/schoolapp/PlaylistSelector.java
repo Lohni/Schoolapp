@@ -117,12 +117,14 @@ public class PlaylistSelector extends Fragment {
                     (MediaStore.Audio.Media._ID);
             int artistColumn = musicCursor.getColumnIndex
                     (android.provider.MediaStore.Audio.Media.ARTIST);
+            int albumid = musicCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID);
             //add songs to list
             do {
+                long thisalbumid = musicCursor.getLong(albumid);
                 long thisId = musicCursor.getLong(idColumn);
                 String thisTitle = musicCursor.getString(titleColumn);
                 String thisArtist = musicCursor.getString(artistColumn);
-                arrayList.add(new MusicResolver(thisId, thisTitle, thisArtist));
+                arrayList.add(new MusicResolver(thisId, thisTitle, thisArtist, thisalbumid));
             }
             while (musicCursor.moveToNext());
         }
@@ -145,7 +147,7 @@ public class PlaylistSelector extends Fragment {
         while (i < max){
             MusicResolver mr = arrayList.get(i);
             if(mr.getChecked()){
-                db.addNew(mr.getTitle(), mr.getArtist(), mr.getId(), table);
+                db.addNew(mr.getTitle(), mr.getArtist(), mr.getId(), table, mr.getAlbumid());
             }
             i = i + 1;
         }

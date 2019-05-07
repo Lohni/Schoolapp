@@ -3,6 +3,6 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/GradientDark">
+    android:background="@color/gradientend">
 
 </android.support.v7.widget.Toolbar>

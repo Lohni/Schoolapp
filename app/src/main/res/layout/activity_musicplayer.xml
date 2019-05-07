@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Musicplayer">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Musicplayer"
+    android:id="@+id/draver_layout">
 
-    <FrameLayout
+    <RelativeLayout
+        android:id="@+id/parentcontainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,17 +25,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:layout="@layout/fragment_startpage_music" />
-    </FrameLayout>
+       </FrameLayout>
 
-    <View
+      <View
         android:id="@+id/line"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_above="@id/playstate"
-        android:background="@color/text" />
+        android:layout_height="2dp"
+        android:layout_above="@id/playcontrol"
+        android:background="@color/seperatorlineDark" />
 
-    <FrameLayout
-        android:id="@+id/playstate"
+      <FrameLayout
+        android:id="@+id/playcontrol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
@@ -39,6 +45,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:layout="@layout/fragment_musicstate" />
-    </FrameLayout>
+      </FrameLayout>
+    </RelativeLayout>
 
-</RelativeLayout>
+    <android.support.design.widget.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:id="@+id/nav_view"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/drawer_menu"
+        android:background="@color/textsecondary"
+        />
+</android.support.v4.widget.DrawerLayout>

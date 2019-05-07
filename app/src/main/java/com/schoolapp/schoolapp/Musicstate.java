@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +23,9 @@ public class Musicstate extends Fragment{
     private Button play, skip;
     private SeekBar seekBar;
     private LinearLayout songinfos;
+    private boolean isplaying = true;
 
-    //
-    private int playID = R.drawable.round_pause_48dp;
-    private int seekto, currpos = 0, duration;
+    private int seekto;
 
     private boolean seekfromuser=false;
 
@@ -74,7 +74,7 @@ public class Musicstate extends Fragment{
                     songtitle.setText(musicResolver.getTitle());
                     songartist.setText(musicResolver.getArtist());
                     play.setBackgroundResource(R.drawable.round_pause_48dp);
-                    playID= R.drawable.round_pause_48dp;
+                    isplaying = true;
                     seekBar.setProgress(0);
             }
         });
@@ -90,15 +90,14 @@ public class Musicstate extends Fragment{
         songartist = view.findViewById(R.id.songartist);
         play = view.findViewById(R.id.play);
         skip = view.findViewById(R.id.skip);
-        seekBar = view.findViewById(R.id.seekBar);
-        dur = view.findViewById(R.id.duration);
-        cp = view.findViewById(R.id.currpos);
+        seekBar = view.findViewById(R.id.seekbarcontrol);
+        dur = view.findViewById(R.id.songduration);
+        cp = view.findViewById(R.id.currentpos);
         songinfos = view.findViewById(R.id.lineartitle);
 
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                buttonimage();
                 mChange.OnStateChanged(1);
             }
         });
@@ -111,22 +110,17 @@ public class Musicstate extends Fragment{
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-
                 if(!seekfromuser){
                     seekto = i;
                     mChange.OnSeekbarChanged(seekto);
                 }
-                seekfromuser=false;
+                else seekfromuser=false;
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
 
@@ -158,22 +152,23 @@ public class Musicstate extends Fragment{
                 seekBar.setMax(durationn);
             }
         });
+        seekbarViewModel.getIsplaying().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                if(aBoolean)play.setBackgroundResource(R.drawable.round_pause_48dp);
+                else play.setBackgroundResource(R.drawable.round_play_arrow_48dp);
+                isplaying = aBoolean;
+            }
+        });
 
         songinfos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "Absolute Playback Control in Development", Toast.LENGTH_SHORT).show();
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.parentcontainer, PlaybackControl.newInstance(seekBar.getProgress(), isplaying)).addToBackStack("unknown").commit();
             }
         });
 
         return view;
-    }
-
-    //Change Button Imsage after Interaction
-    public void buttonimage(){
-        switch(playID){
-            case R.drawable.round_play_arrow_48dp:  play.setBackgroundResource(R.drawable.round_pause_48dp); playID= R.drawable.round_pause_48dp; break;
-            case R.drawable.round_pause_48dp:       play.setBackgroundResource(R.drawable.round_play_arrow_48dp);playID= R.drawable.round_play_arrow_48dp; break;
-        }
     }
 }

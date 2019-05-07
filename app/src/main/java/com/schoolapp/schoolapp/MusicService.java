@@ -12,6 +12,8 @@ import android.os.PowerManager;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class MusicService extends Service implements
         MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
@@ -23,18 +25,16 @@ public class MusicService extends Service implements
     private ArrayList<MusicResolver> songs; //For shuffle
     private MusicResolver currsong;
     //current position
-    private int songPosn;
     private final IBinder musicBind = new MusicBinder();
     PreparedInterface pI;
     private Boolean inEndState = false;
+    private boolean shuffle = false;
 
 
     @Override
     public void onCreate() {
         //create the service
         super.onCreate();
-        //initialize position
-        songPosn=0;
         //create player
         player = new MediaPlayer();
         initMusicPlayer();
@@ -152,8 +152,24 @@ public class MusicService extends Service implements
     public void skip(){
         int pos = songs.indexOf(currsong);
         int max = songs.size() - 1;
-        if(pos<max)setSong(songs.get(pos+1));
-        else setSong(songs.get(0));
+
+        if(shuffle){
+            Random random = new Random();
+            int rand = random.nextInt((max) + 1);
+            setSong(songs.get(rand));
+        }
+        else {
+            if(pos<max)setSong(songs.get(pos+1));
+            else setSong(songs.get(0));
+        }
+        playSong();
+    }
+
+    public void skipback(){
+        int pos = songs.indexOf(currsong);
+        int max = songs.size() - 1;
+        if(pos>0)setSong(songs.get(pos-1));
+        else setSong(songs.get(max));
         playSong();
     }
 
@@ -163,5 +179,13 @@ public class MusicService extends Service implements
 
     public void setInterface(PreparedInterface pl){
         this.pI = pl;
+    }
+
+    public void setShuffle(boolean shuffle){
+        this.shuffle = shuffle;
+    }
+
+    public boolean getShuffle(){
+        return shuffle;
     }
 }

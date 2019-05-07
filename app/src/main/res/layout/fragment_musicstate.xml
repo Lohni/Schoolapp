@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/gradient"
+    android:background="@color/gradientstart"
     tools:context=".Musicstate">
 
     <Button
@@ -74,7 +74,7 @@
         android:orientation="horizontal">
 
         <SeekBar
-            android:id="@+id/seekBar"
+            android:id="@+id/seekbarcontrol"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -83,12 +83,12 @@
             android:secondaryProgressTint="@color/GradientDark"
             android:thumbTint="@color/text"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/duration"
-            app:layout_constraintStart_toEndOf="@id/currpos"
+            app:layout_constraintEnd_toStartOf="@id/songduration"
+            app:layout_constraintStart_toEndOf="@id/currentpos"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/duration"
+            android:id="@+id/songduration"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginEnd="2dp"
@@ -97,18 +97,18 @@
             android:textColor="@color/text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/seekBar"
+            app:layout_constraintStart_toEndOf="@+id/seekbarcontrol"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/currpos"
+            android:id="@+id/currentpos"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginStart="2dp"
             android:text="0:00"
             android:textColor="@color/text"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/seekBar"
+            app:layout_constraintEnd_toStartOf="@+id/seekbarcontrol"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

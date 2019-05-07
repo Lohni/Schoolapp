@@ -24,7 +24,7 @@ public class Playlist extends Fragment {
 
     private View view;
 
-    private Button addplaylist;
+    private Button addplaylist, nav_drawer;
     private ListView playlist;
     //Listview Adapter
     private PlaylistAdapter pAdapter;
@@ -62,9 +62,15 @@ public class Playlist extends Fragment {
         addplaylist = view.findViewById(R.id.addplaylist);
         playlist = view.findViewById(R.id.playlist);
         databasehelper = new databasehelper(getActivity());
-
+        nav_drawer = view.findViewById(R.id.menubttn);
         populateListView();
 
+        nav_drawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((Musicplayer)getActivity()).openDrawer();
+            }
+        });
         addplaylist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
