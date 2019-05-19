@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Colours from MainLayout-->
-    <color name="colorPrimaryDark">#1e1c1c</color>
+    <color name="colorPrimaryDark">#3A1915</color>
+    <color name="navigationBarColor">#632323</color>
+
     <color name="colorAccent">#635d5d</color>
     <color name="firstcolor">#C5C0C1</color>
     <color name="secondcolor">#B2B0B2</color>
     <color name="thirdcolor">#929699</color>
     <color name="fourthcolor">#768083</color>
     <color name="fifthcolor">#55656A</color>
-    <color name="sixthcolor">#3c5157</color>
+    <color name="sixthcolor">#3C5157</color>
 
-    <!-- Colours from CalendarView-->
-    <color name = "weeknumbercolour">#c31432</color>
-    <color name = "Dark" >#000</color>
+    <color name="gradientstart">#201631</color>
+    <color name="gradientend">#24153D</color>
+    <color name="text">#E5E2FF</color>
+    <color name="textsecondary">#736D9B</color>
+    <color name="seperatorlineDark">#4F4469</color>
+    <color name="GradientDark">#040018</color>
 
+    <color name="transparent">#00040018</color>
 
 </resources>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".MusicList"
+    android:background="@drawable/gradient">
+
+    <Button
+        android:id="@+id/menubttn"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_menu_black_24dp"
+        android:backgroundTint="@color/textsecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="0dp"
+        android:layout_height="10px"
+        android:background="@color/seperatorlineDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/menubttn" />
+
+    <ListView
+        android:id="@+id/songlist"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:divider="@drawable/customdivider"
+        android:dividerHeight="1dp"
+        android:scrollbarThumbVertical="@drawable/scrollthumb"
+        app:layout_constraintTop_toBottomOf="@id/line" />
+</android.support.constraint.ConstraintLayout>
