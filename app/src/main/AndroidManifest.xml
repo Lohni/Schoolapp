@@ -24,7 +24,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Notes" />
-        <activity android:name=".NoteView"></activity>
+        <activity android:name=".NoteView" />
+        <activity android:name=".Calendar"></activity>
     </application>
 
 </manifest>

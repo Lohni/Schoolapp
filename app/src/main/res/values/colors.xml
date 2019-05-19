@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Colours from MainLayout-->
     <color name="colorPrimaryDark">#1e1c1c</color>
     <color name="colorAccent">#635d5d</color>
     <color name="firstcolor">#C5C0C1</color>
@@ -9,5 +10,10 @@
     <color name="fourthcolor">#768083</color>
     <color name="fifthcolor">#55656A</color>
     <color name="sixthcolor">#3c5157</color>
+
+    <!-- Colours from CalendarView-->
+    <color name = "weeknumbercolour">#c31432</color>
+    <color name = "Dark" >#000</color>
+
 
 </resources>
