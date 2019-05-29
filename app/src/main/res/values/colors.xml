@@ -12,11 +12,11 @@
     <color name="fifthcolor">#55656A</color>
     <color name="sixthcolor">#3C5157</color>
 
-    <color name="gradientstart">#201631</color>
-    <color name="gradientend">#24153D</color>
+    <color name="gradientstart">#3A2A5A</color>
+    <color name="gradientend">#3E2569</color>
     <color name="text">#E5E2FF</color>
-    <color name="textsecondary">#736D9B</color>
-    <color name="seperatorlineDark">#4F4469</color>
+    <color name="textsecondary">#837EAA</color>
+    <color name="seperatorlineDark">#7F74A2</color>
     <color name="GradientDark">#040018</color>
 
     <color name="transparent">#00040018</color>
