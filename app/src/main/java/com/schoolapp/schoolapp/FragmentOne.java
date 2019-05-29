@@ -14,17 +14,16 @@ import android.widget.Button;
  */
 public class FragmentOne extends Fragment {
 
-
-
-
-
-    Button bn;
-
+   private Button bn;
 
     public FragmentOne() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,21 +32,15 @@ public class FragmentOne extends Fragment {
         View view = inflater.inflate(R.layout.fragment_one_layout, container, false);
 
         bn = view.findViewById(R.id.button2);
-
-
-
-
-
-
-
-
+        bn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                close();
+            }
+        });
         return view;
-
-
-
-
     }
-
-
-
+    private void close(){
+        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+    }
 }
