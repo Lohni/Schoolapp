@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onActive() {
                     Toast.makeText(MainActivity.this, "Calendar",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, Calendar.class);
+                    startActivity(intent);
                 }
             });
             notebtn.setOnActiveListener(new OnActiveListener() {
