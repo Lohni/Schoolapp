@@ -8,6 +8,8 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,11 +18,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 
 public class Musicplayer extends AppCompatActivity
-        implements  MusicList.OnSonglistCreatedListener, MusicList.OnSongSelectedListener, Musicstate.OnStateChangeListener, PreparedInterface, Playlistsongs.OnPlaylistSongSelectedListener, PlaybackControl.OnPlayControlChangeListener{
+        implements  MusicList.OnSonglistCreatedListener, MusicList.OnSongSelectedListener, Musicstate.OnStateChangeListener, PreparedInterface, Playlistsongs.OnPlaylistSongSelectedListener, PlaybackControl.OnPlayControlChangeListener
+        , NavigationView.OnNavigationItemSelectedListener {
 
     //For Music Service
     private MusicService musicSrv;
@@ -44,7 +48,8 @@ public class Musicplayer extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_musicplayer);
         drawer = findViewById(R.id.draver_layout);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         setSupportActionBar(toolbar);
         loadMusicstate( new Musicstate());
         loadStartpage();
@@ -60,6 +65,7 @@ public class Musicplayer extends AppCompatActivity
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer,toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -238,5 +244,28 @@ public class Musicplayer extends AppCompatActivity
 
     public void openDrawer(){
         drawer.openDrawer(GravityCompat.START);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch(menuItem.getItemId()){
+            case R.id.nav_albums:{
+                break;
+            }
+            case R.id.nav_eq:{
+                break;
+            }
+            case R.id.nav_playlist:{
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, new PlaylistViewPager()).commit();
+                break;
+            }
+            case R.id.nav_songs:{
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, new MusicList()).commit();
+                break;
+            }
+            case R.id.nav_options:break;
+        }
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }
