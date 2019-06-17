@@ -3,7 +3,6 @@ package com.schoolapp.schoolapp;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -19,11 +18,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class MusicList extends Fragment {
@@ -36,6 +40,7 @@ public class MusicList extends Fragment {
     private ListView listView;
     private SongAdapter songAdt;
     private Button nav_drawer;
+    Map<String, Integer> mapIndex;
 
     public MusicList() {
         // Required empty public constructor
@@ -85,7 +90,7 @@ public class MusicList extends Fragment {
 
         Collections.sort(arrayList, new Comparator<MusicResolver>(){
             public int compare(MusicResolver a, MusicResolver b){
-                return a.getTitle().compareTo(b.getTitle());
+                return a.getTitle().compareToIgnoreCase(b.getTitle());
             }
         });
 
@@ -107,6 +112,9 @@ public class MusicList extends Fragment {
                 ((Musicplayer)getActivity()).openDrawer();
             }
         });
+
+        getIndexList();
+        displayIndex();
 
         return view;
     }
@@ -162,6 +170,46 @@ public class MusicList extends Fragment {
         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
     }
 
+    private void getIndexList() {
+        mapIndex = new LinkedHashMap<String, Integer>();
+        for (int i = 0; i < arrayList.size(); i++) {
+            MusicResolver item = arrayList.get(i);
+            String index = item.getTitle().substring(0,1);
+            Character character = index.charAt(0);
 
+            if(character <=64 || character >=123){
+                index = "#";
+            } else if(character >= 91 && character <= 96)index = "#";
+            else if(character >96){
+                character = Character.toUpperCase(character);
+                index = character.toString();
+            }
 
+            if (mapIndex.get(index) == null)
+                mapIndex.put(index, i);
+        }
+    }
+
+    private void displayIndex() {
+        LinearLayout indexLayout = view.findViewById(R.id.side_index);
+
+        TextView textView;
+        List<String> indexList = new ArrayList<String>(mapIndex.keySet());
+        for (String index : indexList) {
+            textView = (TextView) getLayoutInflater().inflate(
+                    R.layout.side_index_item, null);
+            if(mapIndex.size() < 24)textView.setTextSize(12);
+            else textView.setTextSize(13);
+            textView.setText(index);
+
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    TextView selectedIndex = (TextView) view;
+                    listView.setSelection(mapIndex.get(selectedIndex.getText()));
+                }
+            });
+            indexLayout.addView(textView);
+        }
+    }
 }

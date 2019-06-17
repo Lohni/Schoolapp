@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.media.audiofx.Equalizer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 
 public class Musicplayer extends AppCompatActivity
         implements  MusicList.OnSonglistCreatedListener, MusicList.OnSongSelectedListener, Musicstate.OnStateChangeListener, PreparedInterface, Playlistsongs.OnPlaylistSongSelectedListener, PlaybackControl.OnPlayControlChangeListener
-        , NavigationView.OnNavigationItemSelectedListener {
+        , NavigationView.OnNavigationItemSelectedListener, EQ.OnEQChangedListener {
 
     //For Music Service
     private MusicService musicSrv;
@@ -34,14 +35,16 @@ public class Musicplayer extends AppCompatActivity
     //Init Viewmodel
     private SeekbarViewModel seekbarViewModel;
     private MusicViewModel musicViewModel;
+    private EQViewModel eqViewModel;
 
     private PreparedInterface preparedInterface;
     private Boolean isOnPause = false;
     Handler mHandler = new Handler();
 
     private int duration;
-
     private DrawerLayout drawer;
+
+    private Equalizer equalizer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,7 @@ public class Musicplayer extends AppCompatActivity
         // Set up the ViewPager with the sections adapter.
         seekbarViewModel = ViewModelProviders.of(this).get(SeekbarViewModel.class);
         musicViewModel = ViewModelProviders.of(this).get(MusicViewModel.class);
+        eqViewModel = ViewModelProviders.of(this).get(EQViewModel.class);
 
 
         //MusicService Interface
@@ -66,6 +70,7 @@ public class Musicplayer extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     @Override
@@ -104,6 +109,9 @@ public class Musicplayer extends AppCompatActivity
             //pass list
             musicSrv.setInterface(preparedInterface);
             musicBound = true;
+
+            equalizer = new Equalizer(0, musicSrv.getID());
+            equalizer.setEnabled(true);
         }
 
         @Override
@@ -184,6 +192,7 @@ public class Musicplayer extends AppCompatActivity
         isOnPause = true;
         mHandler.removeCallbacks(runnable);
         playIntent=null;
+        equalizer.release();
         if (musicConnection != null) {
             unbindService(musicConnection);
         }
@@ -253,6 +262,23 @@ public class Musicplayer extends AppCompatActivity
                 break;
             }
             case R.id.nav_eq:{
+                EQ eq = new EQ();
+                ArrayList<Integer> centerfreqs = new ArrayList<>();
+                short startvalues[] = new short[equalizer.getNumberOfBands()];
+                for(short i=0;i<equalizer.getNumberOfBands();i++){
+                    centerfreqs.add(equalizer.getCenterFreq(i));
+                    startvalues[i] = equalizer.getBandLevel(i);
+                }
+
+                Bundle bundle = new Bundle();
+                bundle.putShort("Number", equalizer.getNumberOfBands());
+                bundle.putShort("Lower", equalizer.getBandLevelRange()[0]);
+                bundle.putShort("Upper", equalizer.getBandLevelRange()[1]);
+                bundle.putIntegerArrayList("Freq", centerfreqs);
+                bundle.putShortArray("StartV", startvalues);
+
+                eq.setArguments(bundle);
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, eq).commit();
                 break;
             }
             case R.id.nav_playlist:{
@@ -267,5 +293,10 @@ public class Musicplayer extends AppCompatActivity
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void OnBandLevelChanged(short BandLevel, short BandIndex) {
+        equalizer.setBandLevel(BandIndex, BandLevel);
     }
 }

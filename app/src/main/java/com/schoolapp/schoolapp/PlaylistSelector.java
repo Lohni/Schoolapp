@@ -89,6 +89,7 @@ public class PlaylistSelector extends Fragment {
 
             }
         });
+
         return view;
     }
 

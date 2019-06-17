@@ -13,7 +13,6 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class MusicService extends Service implements
         MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
@@ -187,5 +186,9 @@ public class MusicService extends Service implements
 
     public boolean getShuffle(){
         return shuffle;
+    }
+
+    public int getID(){
+        return player.getAudioSessionId();
     }
 }
