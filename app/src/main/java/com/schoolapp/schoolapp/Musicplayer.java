@@ -264,10 +264,15 @@ public class Musicplayer extends AppCompatActivity
             case R.id.nav_eq:{
                 EQ eq = new EQ();
                 ArrayList<Integer> centerfreqs = new ArrayList<>();
+                ArrayList<String> presets = new ArrayList<>();
                 short startvalues[] = new short[equalizer.getNumberOfBands()];
                 for(short i=0;i<equalizer.getNumberOfBands();i++){
                     centerfreqs.add(equalizer.getCenterFreq(i));
                     startvalues[i] = equalizer.getBandLevel(i);
+                }
+
+                for(short i=0; i<equalizer.getNumberOfPresets();i++){
+                    presets.add(equalizer.getPresetName(i));
                 }
 
                 Bundle bundle = new Bundle();
@@ -276,6 +281,7 @@ public class Musicplayer extends AppCompatActivity
                 bundle.putShort("Upper", equalizer.getBandLevelRange()[1]);
                 bundle.putIntegerArrayList("Freq", centerfreqs);
                 bundle.putShortArray("StartV", startvalues);
+                bundle.putStringArrayList("Presets",presets);
 
                 eq.setArguments(bundle);
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, eq).commit();
@@ -299,4 +305,16 @@ public class Musicplayer extends AppCompatActivity
     public void OnBandLevelChanged(short BandLevel, short BandIndex) {
         equalizer.setBandLevel(BandIndex, BandLevel);
     }
+
+    @Override
+    public void OnPresetSelected(short position) {
+        equalizer.usePreset(position);
+        Short bandlevels[] = new Short[equalizer.getNumberOfBands()];
+        for(Short i=0;i<equalizer.getNumberOfBands();i++){
+            bandlevels[i] = equalizer.getBandLevel(i);
+        }
+        eqViewModel.setBandlvl(bandlevels);
+    }
+
+
 }

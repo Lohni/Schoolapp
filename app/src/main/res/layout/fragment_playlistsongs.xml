@@ -12,7 +12,7 @@
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:background="@drawable/ic_menu_black_24dp"
-        android:backgroundTint="@color/textsecondary"
+        android:backgroundTint="@color/text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,7 +39,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@android:drawable/ic_input_add"
-        android:backgroundTint="@color/textsecondary"
+        android:backgroundTint="@color/text"
         android:textAlignment="center"
         android:textColor="@color/firstcolor"
         android:textSize="15dp"

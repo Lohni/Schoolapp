@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimaryDark">#3A1915</color>
-    <color name="navigationBarColor">#632323</color>
+    <color name="colorPrimaryDark">#462049</color>
 
-    <color name="colorAccent">#635d5d</color>
-    <color name="firstcolor">#C5C0C1</color>
+    <color name="colorAccent">#635E60</color>
+    <color name="firstcolor">#C5C0C4</color>
     <color name="secondcolor">#B2B0B2</color>
-    <color name="thirdcolor">#929699</color>
-    <color name="fourthcolor">#768083</color>
+    <color name="thirdcolor">#999298</color>
+    <color name="fourthcolor">#787683</color>
     <color name="fifthcolor">#55656A</color>
     <color name="sixthcolor">#3C5157</color>
 
@@ -17,7 +16,7 @@
     <color name="text">#F7DDF7</color>
     <color name="textsecondary">#A77EAA</color>
     <color name="seperatorlineDark">#9F74A2</color>
-    <color name="GradientDark">#040018</color>
+    <color name="GradientDark">#20051B</color>
 
     <color name="transparent">#00040018</color>
 

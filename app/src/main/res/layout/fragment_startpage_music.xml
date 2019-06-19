@@ -13,7 +13,7 @@
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:background="@drawable/ic_menu_black_24dp"
-        android:backgroundTint="@color/textsecondary"
+        android:backgroundTint="@color/text"
         app:layout_constraintBottom_toBottomOf="@id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

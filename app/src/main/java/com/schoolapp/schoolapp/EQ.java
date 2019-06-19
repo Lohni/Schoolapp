@@ -11,8 +11,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -25,8 +28,11 @@ public class EQ extends Fragment {
     static short lowerEQBandLevel, upperEQBandLevel;
     static short BandLevel;
     private ArrayList<Integer> centerfreq;
+    private ArrayList<String> presetlist;
     private Button menu;
     private short[] bandlevelstart;
+    private ListView presets;
+
 
     public EQ() {
         // Required empty public constructor
@@ -40,6 +46,7 @@ public class EQ extends Fragment {
     OnEQChangedListener onEQChangedListener;
     public interface OnEQChangedListener{
         void OnBandLevelChanged(short BandLevel, short BandIndex);
+        void OnPresetSelected(short position);
     }
 
     @Override
@@ -47,10 +54,13 @@ public class EQ extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         EQViewModel eqViewModel = ViewModelProviders.of(getActivity()).get(EQViewModel.class);
-        eqViewModel.getBandlevel().observe(getViewLifecycleOwner(), new Observer<Short>() {
+        eqViewModel.getBandlevel().observe(getViewLifecycleOwner(), new Observer<Short[]>() {
             @Override
-            public void onChanged(@Nullable Short aShort) {
-                BandLevel = aShort;
+            public void onChanged(@Nullable Short[] aShort) {
+                for(short i=0;i<numberFreqBands;i++){
+                    SeekBar sb = getView().findViewById(i);
+                    sb.setProgress(aShort[i] + upperEQBandLevel);
+                }
             }
         });
     }
@@ -70,6 +80,7 @@ public class EQ extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_equalizer, container, false);
         menu = view.findViewById(R.id.menubttn);
+        presets = view.findViewById(R.id.presets);
 
         if(getArguments()!=null){
             numberFreqBands = getArguments().getShort("Number");
@@ -77,6 +88,7 @@ public class EQ extends Fragment {
             upperEQBandLevel = getArguments().getShort("Upper");
             centerfreq = getArguments().getIntegerArrayList("Freq");
             bandlevelstart = getArguments().getShortArray("StartV");
+            presetlist = getArguments().getStringArrayList("Presets");
         }
 
         menu.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +98,26 @@ public class EQ extends Fragment {
             }
         });
 
-        LinearLayout linearLayout = view.findViewById(R.id.llequalizer);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_list_item_1, android.R.id.text1, presetlist) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView textView = (TextView) super.getView(position, convertView, parent);
+                textView.setTextColor(getResources().getColor(R.color.text));
+                return textView;
+            }
+        };
+        presets.setAdapter(adapter);
+        presets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                onEQChangedListener.OnPresetSelected((short) i);
+            }
+        });
+
+
+        //****************** SEEKBAR **********************
+        LinearLayout linearLayout = view.findViewById(R.id.seekbarholder);
 
         for(short i = 0; i < numberFreqBands; i++){
             final short eqBandIndex = i;
@@ -129,7 +160,7 @@ public class EQ extends Fragment {
             seekBar.setId(i);
             seekBar.setLayoutParams(seeklay);
             seekBar.setMax(upperEQBandLevel - lowerEQBandLevel);
-            seekBar.getThumb().setColorFilter(getResources().getColor(R.color.text), PorterDuff.Mode.MULTIPLY);
+            seekBar.setThumb(getResources().getDrawable(R.drawable.custom_thumb));
             seekBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.textsecondary), PorterDuff.Mode.MULTIPLY);
 
             seekBar.setProgress(bandlevelstart[i] + upperEQBandLevel);
@@ -162,4 +193,11 @@ public class EQ extends Fragment {
         }
         return view;
     }
+
+    private void PresetList(){
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, presetlist);
+        presets.setAdapter(adapter);
+
+    }
+
 }
