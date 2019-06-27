@@ -259,6 +259,7 @@ public class Musicplayer extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch(menuItem.getItemId()){
             case R.id.nav_albums:{
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, new Album()).commit();
                 break;
             }
             case R.id.nav_eq:{

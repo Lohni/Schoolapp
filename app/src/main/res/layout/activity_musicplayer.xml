@@ -7,38 +7,40 @@
     tools:context=".Musicplayer"
     android:id="@+id/draver_layout">
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/parentcontainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-     <FrameLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/line"
-        android:layout_alignTop="@id/line"
-        android:layout_alignParentTop="true">
 
-        <fragment
-            android:id="@+id/fragmentt"
-            android:name="com.schoolapp.schoolapp.StartpageMusic"
+        <FrameLayout
+            android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout="@layout/fragment_startpage_music" />
-       </FrameLayout>
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/line"
+            app:layout_constraintTop_toTopOf="parent">
 
-      <View
-        android:id="@+id/line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_above="@id/playcontrol"
-        android:background="@color/seperatorlineDark" />
+            <fragment
+                android:id="@+id/fragmentt"
+                android:name="com.schoolapp.schoolapp.StartpageMusic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout="@layout/fragment_startpage_music" />
+        </FrameLayout>
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/seperatorlineDark"
+            app:layout_constraintTop_toBottomOf="@id/container"
+            app:layout_constraintBottom_toTopOf="@id/playcontrol"/>
 
       <FrameLayout
         android:id="@+id/playcontrol"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/line">
 
         <fragment
             android:name="com.schoolapp.schoolapp.Musicstate"
@@ -46,7 +48,7 @@
             android:layout_height="wrap_content"
             tools:layout="@layout/fragment_musicstate" />
       </FrameLayout>
-    </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.design.widget.NavigationView
         android:layout_width="wrap_content"

@@ -28,11 +28,11 @@
     <ListView
         android:id="@+id/songlist"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_height="0dp"
         android:divider="@drawable/customdivider"
         android:dividerHeight="1dp"
         android:scrollbarThumbVertical="@drawable/scrollthumb"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="@id/side_index"
