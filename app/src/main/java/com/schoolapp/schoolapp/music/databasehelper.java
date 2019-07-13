@@ -1,4 +1,4 @@
-package com.schoolapp.schoolapp;
+package com.schoolapp.schoolapp.music;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -18,7 +18,7 @@ public class databasehelper extends SQLiteOpenHelper {
         private static final String COL4 = "ALBUM_ID";
 
 
-        databasehelper(Context context) {
+        public databasehelper(Context context) {
             super(context, DATABASE_NAME, null, 1);
         }
 

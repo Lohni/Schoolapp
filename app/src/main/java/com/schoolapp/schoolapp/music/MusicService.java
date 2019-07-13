@@ -1,4 +1,4 @@
-package com.schoolapp.schoolapp;
+package com.schoolapp.schoolapp.music;
 
 import android.app.Service;
 import android.content.ContentUris;
@@ -10,6 +10,8 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
+
+import com.schoolapp.schoolapp.music.objects.MusicResolver;
 
 import java.util.ArrayList;
 import java.util.Random;

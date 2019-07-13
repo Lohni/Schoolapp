@@ -28,8 +28,8 @@
         </activity>
         <activity android:name=".Notes" />
         <activity android:name=".NoteView" />
-        <activity android:name=".Musicplayer" />
-        <service android:name=".MusicService"/>
+        <activity android:name=".music.Musicplayer" />
+        <service android:name=".music.MusicService"/>
         <activity android:name=".Calendar"/>
     </application>
 

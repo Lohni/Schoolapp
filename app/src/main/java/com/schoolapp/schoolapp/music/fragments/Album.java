@@ -1,4 +1,4 @@
-package com.schoolapp.schoolapp;
+package com.schoolapp.schoolapp.music.fragments;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -20,6 +20,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+
+import com.schoolapp.schoolapp.R;
+import com.schoolapp.schoolapp.music.objects.AlbumResolver;
+import com.schoolapp.schoolapp.music.objects.MusicResolver;
+import com.schoolapp.schoolapp.music.Musicplayer;
+import com.schoolapp.schoolapp.music.adapter.AlbumAdapter;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;

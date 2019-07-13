@@ -1,4 +1,4 @@
-package com.schoolapp.schoolapp;
+package com.schoolapp.schoolapp.music.fragments;
 
 import android.app.Activity;
 import android.arch.lifecycle.Observer;
@@ -14,7 +14,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.schoolapp.schoolapp.R;
+import com.schoolapp.schoolapp.music.objects.MusicResolver;
+import com.schoolapp.schoolapp.music.viewmodel.MusicViewModel;
+import com.schoolapp.schoolapp.music.viewmodel.SeekbarViewModel;
 
 public class Musicstate extends Fragment{
 

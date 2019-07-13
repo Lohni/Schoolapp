@@ -1,15 +1,17 @@
-package com.schoolapp.schoolapp;
+package com.schoolapp.schoolapp.music.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.schoolapp.schoolapp.R;
+import com.schoolapp.schoolapp.music.Musicplayer;
 
 
 public class StartpageMusic extends Fragment {

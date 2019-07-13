@@ -1,4 +1,4 @@
-package com.schoolapp.schoolapp;
+package com.schoolapp.schoolapp.music.fragments;
 
 import android.content.DialogInterface;
 import android.database.Cursor;
@@ -15,12 +15,17 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.schoolapp.schoolapp.R;
+import com.schoolapp.schoolapp.music.Musicplayer;
+import com.schoolapp.schoolapp.music.adapter.PlaylistAdapter;
+import com.schoolapp.schoolapp.music.databasehelper;
+
 import java.util.ArrayList;
 
 public class Playlist extends Fragment {
 
     //Database
-    private databasehelper databasehelper;
+    private com.schoolapp.schoolapp.music.databasehelper databasehelper;
 
     private View view;
 

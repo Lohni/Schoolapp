@@ -1,4 +1,4 @@
-package com.schoolapp.schoolapp;
+package com.schoolapp.schoolapp.music.fragments;
 
 import android.app.Activity;
 import android.arch.lifecycle.Observer;
@@ -7,11 +7,6 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.DrawableContainer;
-import android.graphics.drawable.PictureDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,7 +18,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.schoolapp.schoolapp.R;
+import com.schoolapp.schoolapp.music.objects.MusicResolver;
+import com.schoolapp.schoolapp.music.viewmodel.MusicViewModel;
+import com.schoolapp.schoolapp.music.viewmodel.SeekbarViewModel;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;

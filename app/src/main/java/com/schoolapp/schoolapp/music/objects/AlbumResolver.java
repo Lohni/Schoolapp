@@ -1,4 +1,4 @@
-package com.schoolapp.schoolapp;
+package com.schoolapp.schoolapp.music.objects;
 
 import android.graphics.Bitmap;
 

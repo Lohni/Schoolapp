@@ -1,4 +1,4 @@
-package com.schoolapp.schoolapp;
+package com.schoolapp.schoolapp.music.fragments;
 
 import android.app.Activity;
 import android.arch.lifecycle.Observer;
@@ -18,6 +18,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.schoolapp.schoolapp.R;
+import com.schoolapp.schoolapp.music.viewmodel.EQViewModel;
+import com.schoolapp.schoolapp.music.Musicplayer;
 
 import java.util.ArrayList;
 

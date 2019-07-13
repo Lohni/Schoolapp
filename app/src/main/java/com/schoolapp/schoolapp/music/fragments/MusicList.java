@@ -1,6 +1,7 @@
-package com.schoolapp.schoolapp;
+package com.schoolapp.schoolapp.music.fragments;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -17,34 +18,65 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import com.schoolapp.schoolapp.R;
+import com.schoolapp.schoolapp.music.objects.MusicResolver;
+import com.schoolapp.schoolapp.music.Musicplayer;
+import com.schoolapp.schoolapp.music.adapter.SongAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
-public class PlaylistSelector extends Fragment {
+public class MusicList extends Fragment {
 
-    private static final int PERMISSION_REQUEST_CODE = 0x03;
+    private static final int PERMISSION_REQUEST_CODE = 0x03 ;
+
+    // TODO: Rename and change types of parameters
     private View view;
-    private ListView selection;
     private ArrayList<MusicResolver> arrayList;
-    private SelectionAdapter sAdapter;
-    private Button selected;
+    private ListView listView;
+    private SongAdapter songAdt;
+    private Button nav_drawer;
+    Map<String, Integer> mapIndex;
 
-    private static String table;
-    private static databasehelper db;
-
-    public PlaylistSelector() {
+    public MusicList() {
         // Required empty public constructor
     }
 
-    public static PlaylistSelector newInstance(String tab, databasehelper databasehelper) {
-        PlaylistSelector fragment = new PlaylistSelector();
-        table = tab;
-        db = databasehelper;
+    // TODO: Rename and change types and number of parameters
+    public static MusicList newInstance() {
+        MusicList fragment = new MusicList();
         return fragment;
+    }
+
+    OnSonglistCreatedListener mCallback;
+    public interface OnSonglistCreatedListener{
+         void OnSonglistCreated(ArrayList<MusicResolver> songlist);
+    }
+
+    OnSongSelectedListener mSongSelected;
+    public interface OnSongSelectedListener{
+         void OnSongSelected(MusicResolver currsong);
+    }
+    
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mCallback = (OnSonglistCreatedListener) activity;
+            mSongSelected = (OnSongSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnSonglistCreatedListener");
+        }
     }
 
     @Override
@@ -52,43 +84,42 @@ public class PlaylistSelector extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_playlist_selector, container, false);
-        selection = view.findViewById(R.id.selection);
-        selected = view.findViewById(R.id.selected);
+        view = inflater.inflate(R.layout.fragment_music_list, container, false);
+        nav_drawer = view.findViewById(R.id.menubttn);
         arrayList = new ArrayList<>();
         getSongList();
+
         Collections.sort(arrayList, new Comparator<MusicResolver>(){
             public int compare(MusicResolver a, MusicResolver b){
-                return a.getTitle().compareTo(b.getTitle());
+                return a.getTitle().compareToIgnoreCase(b.getTitle());
             }
         });
 
-        sAdapter = new SelectionAdapter(getContext(), arrayList);
-        selection.setAdapter(sAdapter);
+        listView = view.findViewById(R.id.songlist);
+        songAdt = new SongAdapter(getContext(), arrayList);
+        listView.setAdapter(songAdt);
 
-        selection.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                MusicResolver mr = sAdapter.getItem(i);
-                if(mr.getChecked())mr.setChecked(false);
-                else mr.setChecked(true);
-                arrayList.set(i, mr);
-                sAdapter.notifyDataSetChanged();
+                final MusicResolver  currsong = songAdt.getItem(i);
+                mSongSelected.OnSongSelected(currsong);
+                mCallback.OnSonglistCreated(arrayList);
             }
         });
-
-        selected.setOnClickListener(new View.OnClickListener() {
+        nav_drawer.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                setSelected();
-                getActivity().getSupportFragmentManager().popBackStackImmediate();
-
+            public void onClick(View v) {
+                ((Musicplayer)getActivity()).openDrawer();
             }
         });
+
+        getIndexList();
+        displayIndex();
 
         return view;
     }
@@ -129,6 +160,7 @@ public class PlaylistSelector extends Fragment {
             }
             while (musicCursor.moveToNext());
         }
+        if(musicCursor != null)musicCursor.close();
     }
 
     private boolean checkPermission() {
@@ -143,14 +175,46 @@ public class PlaylistSelector extends Fragment {
         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
     }
 
-    private void setSelected(){
-        int i = 0, max = arrayList.size();
-        while (i < max){
-            MusicResolver mr = arrayList.get(i);
-            if(mr.getChecked()){
-                db.addNew(mr.getTitle(), mr.getArtist(), mr.getId(), table, mr.getAlbumid());
+    private void getIndexList() {
+        mapIndex = new LinkedHashMap<String, Integer>();
+        for (int i = 0; i < arrayList.size(); i++) {
+            MusicResolver item = arrayList.get(i);
+            String index = item.getTitle().substring(0,1);
+            Character character = index.charAt(0);
+
+            if(character <=64 || character >=123){
+                index = "#";
+            } else if(character >= 91 && character <= 96)index = "#";
+            else if(character >96){
+                character = Character.toUpperCase(character);
+                index = character.toString();
             }
-            i = i + 1;
+
+            if (mapIndex.get(index) == null)
+                mapIndex.put(index, i);
+        }
+    }
+
+    private void displayIndex() {
+        LinearLayout indexLayout = view.findViewById(R.id.side_index);
+
+        TextView textView;
+        List<String> indexList = new ArrayList<String>(mapIndex.keySet());
+        for (String index : indexList) {
+            textView = (TextView) getLayoutInflater().inflate(
+                    R.layout.side_index_item, null);
+            if(mapIndex.size() < 24)textView.setTextSize(12);
+            else textView.setTextSize(13);
+            textView.setText(index);
+
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    TextView selectedIndex = (TextView) view;
+                    listView.setSelection(mapIndex.get(selectedIndex.getText()));
+                }
+            });
+            indexLayout.addView(textView);
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.schoolapp.schoolapp;
+package com.schoolapp.schoolapp.music;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.ComponentName;
@@ -20,6 +20,20 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+
+import com.schoolapp.schoolapp.R;
+import com.schoolapp.schoolapp.music.fragments.Album;
+import com.schoolapp.schoolapp.music.fragments.EQ;
+import com.schoolapp.schoolapp.music.fragments.MusicList;
+import com.schoolapp.schoolapp.music.fragments.Musicstate;
+import com.schoolapp.schoolapp.music.fragments.PlaybackControl;
+import com.schoolapp.schoolapp.music.fragments.PlaylistViewPager;
+import com.schoolapp.schoolapp.music.fragments.Playlistsongs;
+import com.schoolapp.schoolapp.music.fragments.StartpageMusic;
+import com.schoolapp.schoolapp.music.objects.MusicResolver;
+import com.schoolapp.schoolapp.music.viewmodel.EQViewModel;
+import com.schoolapp.schoolapp.music.viewmodel.MusicViewModel;
+import com.schoolapp.schoolapp.music.viewmodel.SeekbarViewModel;
 
 import java.util.ArrayList;
 

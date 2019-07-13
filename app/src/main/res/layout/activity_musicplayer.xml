@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Musicplayer"
+    tools:context=".music.Musicplayer"
     android:id="@+id/draver_layout">
 
     <android.support.constraint.ConstraintLayout
@@ -21,7 +21,7 @@
 
             <fragment
                 android:id="@+id/fragmentt"
-                android:name="com.schoolapp.schoolapp.StartpageMusic"
+                android:name="com.schoolapp.schoolapp.music.fragments.StartpageMusic"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:layout="@layout/fragment_startpage_music" />
@@ -43,7 +43,7 @@
           app:layout_constraintTop_toBottomOf="@id/line">
 
         <fragment
-            android:name="com.schoolapp.schoolapp.Musicstate"
+            android:name="com.schoolapp.schoolapp.music.fragments.Musicstate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:layout="@layout/fragment_musicstate" />

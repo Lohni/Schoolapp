@@ -1,4 +1,4 @@
-package com.schoolapp.schoolapp;
+package com.schoolapp.schoolapp.music.fragments;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -15,6 +15,12 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.schoolapp.schoolapp.R;
+import com.schoolapp.schoolapp.music.objects.MusicResolver;
+import com.schoolapp.schoolapp.music.Musicplayer;
+import com.schoolapp.schoolapp.music.adapter.SongAdapter;
+import com.schoolapp.schoolapp.music.databasehelper;
 
 import java.util.ArrayList;
 

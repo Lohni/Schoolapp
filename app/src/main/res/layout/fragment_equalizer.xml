@@ -5,7 +5,7 @@
     android:id="@+id/llequalizer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EQ"
+    tools:context=".music.fragments.EQ"
     android:background="@drawable/gradient"
     android:orientation="vertical"
     android:clickable="true">

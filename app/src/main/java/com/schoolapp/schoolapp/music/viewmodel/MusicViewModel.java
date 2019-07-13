@@ -1,8 +1,10 @@
-package com.schoolapp.schoolapp;
+package com.schoolapp.schoolapp.music.viewmodel;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+
+import com.schoolapp.schoolapp.music.objects.MusicResolver;
 
 public class MusicViewModel extends ViewModel {
     private final MutableLiveData<MusicResolver> selected = new MutableLiveData<MusicResolver>();
