@@ -5,8 +5,11 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.button.MaterialButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.transition.Fade;
+import android.transition.Slide;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +27,7 @@ public class Musicstate extends Fragment{
 
     //Initialize Layout-Objects
     private TextView songtitle, songartist, dur,cp;
-    private Button play, skip;
+    private MaterialButton play, skip;
     private SeekBar seekBar;
     private LinearLayout songinfos;
     private boolean isplaying = true;
@@ -77,7 +80,7 @@ public class Musicstate extends Fragment{
             public void onChanged(@Nullable MusicResolver musicResolver) {
                     songtitle.setText(musicResolver.getTitle());
                     songartist.setText(musicResolver.getArtist());
-                    play.setBackgroundResource(R.drawable.round_pause_48dp);
+                    play.setIconResource(R.mipmap.baseline_pause_black_48);
                     isplaying = true;
                     seekBar.setProgress(0);
             }
@@ -159,8 +162,8 @@ public class Musicstate extends Fragment{
         seekbarViewModel.getIsplaying().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
-                if(aBoolean)play.setBackgroundResource(R.drawable.round_pause_48dp);
-                else play.setBackgroundResource(R.drawable.round_play_arrow_48dp);
+                if(aBoolean)play.setIconResource(R.mipmap.baseline_pause_black_48);
+                else play.setIconResource(R.mipmap.baseline_play_arrow_black_48);
                 isplaying = aBoolean;
             }
         });
@@ -169,7 +172,13 @@ public class Musicstate extends Fragment{
             @Override
             public void onClick(View view) {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.parentcontainer, PlaybackControl.newInstance(seekBar.getProgress(), isplaying)).addToBackStack("unknown").commit();
+                Fragment nextFrag = PlaybackControl.newInstance(seekBar.getProgress(), isplaying);
+
+                Slide enterSlide = new Slide();
+                enterSlide.setDuration(400);
+                nextFrag.setEnterTransition(enterSlide);
+
+                ft.replace(R.id.parentcontainer, nextFrag).addToBackStack("unknown").commit();
             }
         });
 

@@ -119,7 +119,7 @@ public class MusicList extends Fragment {
         });
 
         getIndexList();
-        displayIndex();
+        displayIndex(container);
 
         return view;
     }
@@ -195,14 +195,14 @@ public class MusicList extends Fragment {
         }
     }
 
-    private void displayIndex() {
+    private void displayIndex(ViewGroup container) {
         LinearLayout indexLayout = view.findViewById(R.id.side_index);
 
         TextView textView;
         List<String> indexList = new ArrayList<String>(mapIndex.keySet());
         for (String index : indexList) {
             textView = (TextView) getLayoutInflater().inflate(
-                    R.layout.side_index_item, null);
+                    R.layout.side_index_item, container);
             if(mapIndex.size() < 24)textView.setTextSize(12);
             else textView.setTextSize(13);
             textView.setText(index);

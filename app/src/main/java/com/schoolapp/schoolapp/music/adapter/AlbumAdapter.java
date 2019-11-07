@@ -1,6 +1,11 @@
 package com.schoolapp.schoolapp.music.adapter;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +16,10 @@ import android.widget.TextView;
 import com.schoolapp.schoolapp.R;
 import com.schoolapp.schoolapp.music.objects.AlbumResolver;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class AlbumAdapter extends BaseAdapter {
 
@@ -64,6 +72,7 @@ public class AlbumAdapter extends BaseAdapter {
 
         return view;
     }
+
 
     private static class ViewHolder{
         TextView albumname;

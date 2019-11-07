@@ -7,7 +7,7 @@
             android:shape="line"
             android:thickness="1px">
             <stroke
-                android:color="@color/seperatorlineDark"
+                android:color="@color/text"
                 android:width="1px">
             </stroke>
         </shape>

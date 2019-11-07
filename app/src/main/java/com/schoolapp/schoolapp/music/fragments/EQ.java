@@ -165,7 +165,7 @@ public class EQ extends Fragment {
             seekBar.setLayoutParams(seeklay);
             seekBar.setMax(upperEQBandLevel - lowerEQBandLevel);
             seekBar.setThumb(getResources().getDrawable(R.drawable.custom_thumb));
-            seekBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.textsecondary), PorterDuff.Mode.MULTIPLY);
+            seekBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.text), PorterDuff.Mode.MULTIPLY);
 
             seekBar.setProgress(bandlevelstart[i] + upperEQBandLevel);
             seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

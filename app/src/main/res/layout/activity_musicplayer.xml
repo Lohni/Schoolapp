@@ -31,9 +31,9 @@
             android:id="@+id/line"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/seperatorlineDark"
-            app:layout_constraintTop_toBottomOf="@id/container"
-            app:layout_constraintBottom_toTopOf="@id/playcontrol"/>
+            android:background="@color/text"
+            app:layout_constraintBottom_toTopOf="@id/playcontrol"
+            app:layout_constraintTop_toBottomOf="@id/container" />
 
       <FrameLayout
         android:id="@+id/playcontrol"
@@ -43,6 +43,7 @@
           app:layout_constraintTop_toBottomOf="@id/line">
 
         <fragment
+            android:id="@+id/playcontrol_holder"
             android:name="com.schoolapp.schoolapp.music.fragments.Musicstate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,11 +52,13 @@
     </android.support.constraint.ConstraintLayout>
 
     <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:id="@+id/nav_view"
+        android:background="@color/text"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/drawer_menu"
-        android:background="@color/text"/>
+        app:itemIconTint="@color/colorSecondaryDark"
+        app:itemTextColor="@color/colorSecondaryDark"
+        app:menu="@menu/drawer_menu" />
 </android.support.v4.widget.DrawerLayout>

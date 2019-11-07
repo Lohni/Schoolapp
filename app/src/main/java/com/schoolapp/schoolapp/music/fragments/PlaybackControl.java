@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.button.MaterialButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +31,7 @@ import java.io.InputStream;
 public class PlaybackControl extends Fragment {
 
     private TextView songtitle, songartist, dur, cp;
-    private Button play, skipback, skipforward, repeat, shuffle;
+    private MaterialButton play, skipback, skipforward, repeat, shuffle;
     private SeekBar seekBar;
     private ImageView cover;
     private long albumid;
@@ -83,8 +84,8 @@ public class PlaybackControl extends Fragment {
             public void onChanged(@Nullable MusicResolver musicResolver) {
                 songtitle.setText(musicResolver.getTitle());
                 songartist.setText(musicResolver.getArtist());
-                if(!isplaying)play.setBackgroundResource(R.drawable.round_play_arrow_48dp);
-                else play.setBackgroundResource(R.drawable.round_pause_48dp);
+                if(!isplaying)play.setIconResource(R.mipmap.baseline_play_arrow_black_48);
+                else play.setIconResource(R.mipmap.baseline_pause_black_48);
                 albumid = musicResolver.getAlbumid();
                 setCover();
                 seekBar.setProgress(currpos);
@@ -214,8 +215,8 @@ public class PlaybackControl extends Fragment {
         seekbarViewModel.getIsplaying().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
-                if(aBoolean)play.setBackgroundResource(R.drawable.round_pause_48dp);
-                else play.setBackgroundResource(R.drawable.round_play_arrow_48dp);
+                if(aBoolean)play.setIconResource(R.mipmap.baseline_pause_black_48);
+                else play.setIconResource(R.mipmap.baseline_play_arrow_black_48);
             }
         });
 

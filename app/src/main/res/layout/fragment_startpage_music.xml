@@ -8,12 +8,24 @@
     tools:context=".music.fragments.StartpageMusic"
     android:id="@+id/startpage">
 
-    <Button
+    <android.support.design.button.MaterialButton
         android:id="@+id/menubttn"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ic_menu_black_24dp"
-        android:backgroundTint="@color/text"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:elevation="0dp"
+        android:padding="0dp"
+        android:paddingStart="0dp"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingEnd="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
+        app:backgroundTint="@color/transparent"
+        app:icon="@mipmap/baseline_menu_black_48"
         app:layout_constraintBottom_toBottomOf="@id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,120 +34,108 @@
         android:id="@+id/line1"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:background="@color/seperatorlineDark"
+        android:background="@color/text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/menubttn" />
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@color/seperatorlineDark"
-        app:layout_constraintBottom_toTopOf="@id/allsongbttn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
-    <View
+    <android.support.design.button.MaterialButton
+        android:id="@+id/album"
         android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@color/seperatorlineDark"
-        app:layout_constraintBottom_toTopOf="@id/linearlayeqalb"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/linearlayeqalb"
-        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        app:layout_constraintBottom_toTopOf="@id/linearlayplfav"
-        app:layout_constraintTop_toBottomOf="@id/allsongbttn">
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:drawableStart="@mipmap/baseline_album_black_48"
+        android:elevation="0dp"
+        android:text="Albums"
+        android:textAllCaps="false"
+        android:textColor="@color/text"
+        android:textSize="18sp"
+        app:backgroundTint="@color/transparent"
+        app:layout_constraintBottom_toTopOf="@id/favouritesbttn"
+        app:layout_constraintLeft_toRightOf="@id/equalizer"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/allsongbttn"
+        app:strokeColor="@color/text"
+        app:strokeWidth="2dp" />
 
-        <Button
-            android:id="@+id/album"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:text="Equalizer"
-            android:textAllCaps="false"
-            android:textColor="@color/text"
-            android:textSize="18sp" />
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/seperatorlineDark" />
-
-        <Button
-            android:id="@+id/equalizer"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:text="Albums"
-            android:textAllCaps="false"
-            android:textColor="@color/text"
-            android:textSize="18sp" />
-    </LinearLayout>
-
-    <View
+    <android.support.design.button.MaterialButton
+        android:id="@+id/equalizer"
         android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@color/seperatorlineDark"
-        app:layout_constraintBottom_toTopOf="@id/linearlayplfav"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/linearlayplfav"
-        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:weightSum="2"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Equalizer"
+        android:textAllCaps="false"
+        android:textColor="@color/text"
+        android:textSize="18sp"
+        app:backgroundTint="@color/transparent"
+        app:layout_constraintBottom_toTopOf="@id/playlistbttn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/album"
+        app:layout_constraintTop_toBottomOf="@id/allsongbttn"
+        app:strokeColor="@color/text"
+        app:strokeWidth="2dp" />
+
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/playlistbttn"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_weight="1"
+        android:text="Playlist"
+        android:textAllCaps="false"
+        android:textColor="@color/text"
+        android:textSize="18sp"
+        app:backgroundTint="@color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linearlayeqalb">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/favouritesbttn"
+        app:layout_constraintTop_toBottomOf="@id/equalizer"
+        app:strokeColor="@color/text"
+        app:strokeWidth="2dp" />
 
-        <Button
-            android:id="@+id/playlistbttn"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:text="Playlist"
-            android:textAllCaps="false"
-            android:textColor="@color/text"
-            android:textSize="18sp" />
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/seperatorlineDark" />
-
-        <Button
-            android:id="@+id/favouritesbttn"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:text="Favourites"
-            android:textAllCaps="false"
-            android:textColor="@color/text"
-            android:textSize="18sp" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/allsongbttn"
-        android:layout_width="match_parent"
+    <android.support.design.button.MaterialButton
+        android:id="@+id/favouritesbttn"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@android:color/transparent"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Favourites"
+        android:textAllCaps="false"
+        android:textColor="@color/text"
+        android:textSize="18sp"
+        app:backgroundTint="@color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/playlistbttn"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/album"
+        app:strokeColor="@color/text"
+        app:strokeWidth="2dp" />
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/allsongbttn"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:text="All Songs"
         android:textAllCaps="false"
         android:textColor="@color/text"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@id/linearlayeqalb"
-        app:layout_constraintTop_toBottomOf="@+id/line1" />
+        app:backgroundTint="@color/transparent"
+        app:layout_constraintBottom_toTopOf="@id/equalizer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line1"
+        app:strokeColor="@color/text"
+        app:strokeWidth="2dp" />
 
 
 </android.support.constraint.ConstraintLayout>

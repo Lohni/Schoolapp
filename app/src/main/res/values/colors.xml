@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimaryDark">#462049</color>
+    <color name="colorSecondary">#00796D</color>
+    <color name="colorSecondaryDark">#015A52</color>
+    <color name="colorSecondaryLight">#019788</color>
+    <color name="colorDark">#001A19</color>
+
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorPrimaryLight">#7C34E6</color>
 
     <color name="colorAccent">#635E60</color>
     <color name="firstcolor">#C5C0C4</color>
@@ -13,8 +20,8 @@
 
     <color name="gradientstart">#462049</color>
     <color name="gradientend">#531B55</color>
-    <color name="text">#F7DDF7</color>
-    <color name="textsecondary">#A77EAA</color>
+    <color name="text">#FCE4EC</color>
+    <color name="textsecondary">#4a148c</color>
     <color name="seperatorlineDark">#9F74A2</color>
     <color name="GradientDark">#20051B</color>
 

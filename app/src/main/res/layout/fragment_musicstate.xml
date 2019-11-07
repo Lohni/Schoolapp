@@ -4,25 +4,50 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/gradientstart"
+    android:background="@color/colorSecondaryDark"
     tools:context=".music.fragments.Musicstate">
 
-    <Button
+    <android.support.design.button.MaterialButton
         android:id="@+id/play"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
         android:layout_toStartOf="@+id/skip"
-        android:background="@drawable/round_pause_48dp"
-        android:backgroundTint="@color/text"
-        android:elevation="0dp" />
+        android:backgroundTint="@color/transparent"
+        android:elevation="0dp"
+        android:padding="0dp"
+        android:paddingStart="0dp"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingEnd="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
+        android:textAlignment="center"
+        app:icon="@mipmap/baseline_play_arrow_black_48" />
 
-    <Button
+    <android.support.design.button.MaterialButton
         android:id="@+id/skip"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_alignParentEnd="true"
-        android:background="@drawable/round_skip_next_48dp"
-        android:backgroundTint="@color/text" />
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
+        android:backgroundTint="@color/transparent"
+        android:elevation="0dp"
+        android:padding="0dp"
+        android:paddingStart="0dp"
+        android:paddingLeft="0dp"
+        android:paddingEnd="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
+        app:icon="@mipmap/baseline_skip_next_black_48" />
 
     <LinearLayout
         android:id="@+id/lineartitle"
@@ -78,9 +103,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:progressBackgroundTint="@color/textsecondary"
+            android:progressBackgroundTint="@color/colorSecondaryLight"
             android:progressTint="@color/text"
-            android:secondaryProgressTint="@color/GradientDark"
+            android:secondaryProgressTint="@color/colorDark"
             android:thumbTint="@color/text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/songduration"

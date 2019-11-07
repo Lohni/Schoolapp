@@ -19,16 +19,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"/>
+
+        <activity android:name=".Notes" />
+        <activity android:name=".NoteView" />
+        <activity android:name=".music.Musicplayer" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Notes" />
-        <activity android:name=".NoteView" />
-        <activity android:name=".music.Musicplayer" />
         <service android:name=".music.MusicService"/>
         <activity android:name=".Calendar"/>
     </application>
