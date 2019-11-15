@@ -41,7 +41,7 @@
         android:paddingEnd="0dp"
         android:paddingRight="0dp"
         android:paddingBottom="0dp"
-        app:icon="@mipmap/baseline_add_black_48"
+        app:icon="@mipmap/baseline_done_black_48"
         app:layout_constraintBottom_toTopOf="@+id/line"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
